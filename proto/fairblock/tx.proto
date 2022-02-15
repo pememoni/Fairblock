@@ -1,0 +1,13 @@
+syntax = "proto3";
+package pememoni.fairblock.fairblock;
+
+// this line is used by starport scaffolding # proto/tx/import
+
+option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
+
+// Msg defines the Msg service.
+service Msg {
+    // this line is used by starport scaffolding # proto/tx/rpc
+}
+
+// this line is used by starport scaffolding # proto/tx/message

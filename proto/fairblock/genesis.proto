@@ -1,0 +1,14 @@
+syntax = "proto3";
+package pememoni.fairblock.fairblock;
+
+import "gogoproto/gogo.proto";
+import "fairblock/params.proto";
+// this line is used by starport scaffolding # genesis/proto/import
+
+option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
+
+// GenesisState defines the fairblock module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+  // this line is used by starport scaffolding # genesis/proto/state
+}
