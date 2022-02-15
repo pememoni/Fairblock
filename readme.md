@@ -42,11 +42,3 @@ To install the latest version of your blockchain node's binary, execute the foll
 curl https://get.starport.com/pememoni/FairBlock@latest! | sudo bash
 ```
 `pememoni/FairBlock` should match the `username` and `repo_name` of the Github repository to which the source code was pushed. Learn more about [the install process](https://github.com/allinbits/starport-installer).
-
-## Learn more
-
-- [Starport](https://starport.com)
-- [Tutorials](https://docs.starport.com/guide)
-- [Starport docs](https://docs.starport.com)
-- [Cosmos SDK docs](https://docs.cosmos.network)
-- [Developer Chat](https://discord.gg/H6wGTY8sxw)
