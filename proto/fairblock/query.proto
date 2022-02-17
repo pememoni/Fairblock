@@ -5,6 +5,8 @@ import "gogoproto/gogo.proto";
 import "google/api/annotations.proto";
 import "cosmos/base/query/v1beta1/pagination.proto";
 import "fairblock/params.proto";
+import "fairblock/share.proto";
+import "fairblock/target.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
@@ -15,7 +17,27 @@ service Query {
   rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/pememoni/fairblock/fairblock/params";
   }
-  // this line is used by starport scaffolding # 2
+  // Queries a Share by index.
+	rpc Share(QueryGetShareRequest) returns (QueryGetShareResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/share/{index}";
+	}
+
+	// Queries a list of Share items.
+	rpc ShareAll(QueryAllShareRequest) returns (QueryAllShareResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/share";
+	}
+
+// Queries a Target by index.
+	rpc Target(QueryGetTargetRequest) returns (QueryGetTargetResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/target/{index}";
+	}
+
+	// Queries a list of Target items.
+	rpc TargetAll(QueryAllTargetRequest) returns (QueryAllTargetResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/target";
+	}
+
+// this line is used by starport scaffolding # 2
 }
 
 // QueryParamsRequest is request type for the Query/Params RPC method.
@@ -25,6 +47,42 @@ message QueryParamsRequest {}
 message QueryParamsResponse {
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryGetShareRequest {
+	  string index = 1;
+
+}
+
+message QueryGetShareResponse {
+	Share share = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllShareRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllShareResponse {
+	repeated Share share = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetTargetRequest {
+	  string index = 1;
+
+}
+
+message QueryGetTargetResponse {
+	Target target = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllTargetRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllTargetResponse {
+	repeated Target target = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 
 // this line is used by starport scaffolding # 3

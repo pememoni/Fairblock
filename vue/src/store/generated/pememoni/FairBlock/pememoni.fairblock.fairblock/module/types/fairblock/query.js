@@ -1,6 +1,9 @@
 /* eslint-disable */
 import { Reader, Writer } from "protobufjs/minimal";
 import { Params } from "../fairblock/params";
+import { Share } from "../fairblock/share";
+import { PageRequest, PageResponse, } from "../cosmos/base/query/v1beta1/pagination";
+import { Target } from "../fairblock/target";
 export const protobufPackage = "pememoni.fairblock.fairblock";
 const baseQueryParamsRequest = {};
 export const QueryParamsRequest = {
@@ -86,6 +89,478 @@ export const QueryParamsResponse = {
         return message;
     },
 };
+const baseQueryGetShareRequest = { index: "" };
+export const QueryGetShareRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.index !== "") {
+            writer.uint32(10).string(message.index);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetShareRequest };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.index = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetShareRequest };
+        if (object.index !== undefined && object.index !== null) {
+            message.index = String(object.index);
+        }
+        else {
+            message.index = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.index !== undefined && (obj.index = message.index);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetShareRequest };
+        if (object.index !== undefined && object.index !== null) {
+            message.index = object.index;
+        }
+        else {
+            message.index = "";
+        }
+        return message;
+    },
+};
+const baseQueryGetShareResponse = {};
+export const QueryGetShareResponse = {
+    encode(message, writer = Writer.create()) {
+        if (message.share !== undefined) {
+            Share.encode(message.share, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetShareResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.share = Share.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetShareResponse };
+        if (object.share !== undefined && object.share !== null) {
+            message.share = Share.fromJSON(object.share);
+        }
+        else {
+            message.share = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.share !== undefined &&
+            (obj.share = message.share ? Share.toJSON(message.share) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetShareResponse };
+        if (object.share !== undefined && object.share !== null) {
+            message.share = Share.fromPartial(object.share);
+        }
+        else {
+            message.share = undefined;
+        }
+        return message;
+    },
+};
+const baseQueryAllShareRequest = {};
+export const QueryAllShareRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.pagination !== undefined) {
+            PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryAllShareRequest };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.pagination = PageRequest.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryAllShareRequest };
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromJSON(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.pagination !== undefined &&
+            (obj.pagination = message.pagination
+                ? PageRequest.toJSON(message.pagination)
+                : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryAllShareRequest };
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromPartial(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+};
+const baseQueryAllShareResponse = {};
+export const QueryAllShareResponse = {
+    encode(message, writer = Writer.create()) {
+        for (const v of message.share) {
+            Share.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.pagination !== undefined) {
+            PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryAllShareResponse };
+        message.share = [];
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.share.push(Share.decode(reader, reader.uint32()));
+                    break;
+                case 2:
+                    message.pagination = PageResponse.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryAllShareResponse };
+        message.share = [];
+        if (object.share !== undefined && object.share !== null) {
+            for (const e of object.share) {
+                message.share.push(Share.fromJSON(e));
+            }
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageResponse.fromJSON(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.share) {
+            obj.share = message.share.map((e) => (e ? Share.toJSON(e) : undefined));
+        }
+        else {
+            obj.share = [];
+        }
+        message.pagination !== undefined &&
+            (obj.pagination = message.pagination
+                ? PageResponse.toJSON(message.pagination)
+                : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryAllShareResponse };
+        message.share = [];
+        if (object.share !== undefined && object.share !== null) {
+            for (const e of object.share) {
+                message.share.push(Share.fromPartial(e));
+            }
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageResponse.fromPartial(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+};
+const baseQueryGetTargetRequest = { index: "" };
+export const QueryGetTargetRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.index !== "") {
+            writer.uint32(10).string(message.index);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetTargetRequest };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.index = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetTargetRequest };
+        if (object.index !== undefined && object.index !== null) {
+            message.index = String(object.index);
+        }
+        else {
+            message.index = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.index !== undefined && (obj.index = message.index);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetTargetRequest };
+        if (object.index !== undefined && object.index !== null) {
+            message.index = object.index;
+        }
+        else {
+            message.index = "";
+        }
+        return message;
+    },
+};
+const baseQueryGetTargetResponse = {};
+export const QueryGetTargetResponse = {
+    encode(message, writer = Writer.create()) {
+        if (message.target !== undefined) {
+            Target.encode(message.target, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryGetTargetResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.target = Target.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryGetTargetResponse };
+        if (object.target !== undefined && object.target !== null) {
+            message.target = Target.fromJSON(object.target);
+        }
+        else {
+            message.target = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.target !== undefined &&
+            (obj.target = message.target ? Target.toJSON(message.target) : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryGetTargetResponse };
+        if (object.target !== undefined && object.target !== null) {
+            message.target = Target.fromPartial(object.target);
+        }
+        else {
+            message.target = undefined;
+        }
+        return message;
+    },
+};
+const baseQueryAllTargetRequest = {};
+export const QueryAllTargetRequest = {
+    encode(message, writer = Writer.create()) {
+        if (message.pagination !== undefined) {
+            PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryAllTargetRequest };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.pagination = PageRequest.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryAllTargetRequest };
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromJSON(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.pagination !== undefined &&
+            (obj.pagination = message.pagination
+                ? PageRequest.toJSON(message.pagination)
+                : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryAllTargetRequest };
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageRequest.fromPartial(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+};
+const baseQueryAllTargetResponse = {};
+export const QueryAllTargetResponse = {
+    encode(message, writer = Writer.create()) {
+        for (const v of message.target) {
+            Target.encode(v, writer.uint32(10).fork()).ldelim();
+        }
+        if (message.pagination !== undefined) {
+            PageResponse.encode(message.pagination, writer.uint32(18).fork()).ldelim();
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseQueryAllTargetResponse };
+        message.target = [];
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.target.push(Target.decode(reader, reader.uint32()));
+                    break;
+                case 2:
+                    message.pagination = PageResponse.decode(reader, reader.uint32());
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseQueryAllTargetResponse };
+        message.target = [];
+        if (object.target !== undefined && object.target !== null) {
+            for (const e of object.target) {
+                message.target.push(Target.fromJSON(e));
+            }
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageResponse.fromJSON(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        if (message.target) {
+            obj.target = message.target.map((e) => e ? Target.toJSON(e) : undefined);
+        }
+        else {
+            obj.target = [];
+        }
+        message.pagination !== undefined &&
+            (obj.pagination = message.pagination
+                ? PageResponse.toJSON(message.pagination)
+                : undefined);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseQueryAllTargetResponse };
+        message.target = [];
+        if (object.target !== undefined && object.target !== null) {
+            for (const e of object.target) {
+                message.target.push(Target.fromPartial(e));
+            }
+        }
+        if (object.pagination !== undefined && object.pagination !== null) {
+            message.pagination = PageResponse.fromPartial(object.pagination);
+        }
+        else {
+            message.pagination = undefined;
+        }
+        return message;
+    },
+};
 export class QueryClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -94,5 +569,25 @@ export class QueryClientImpl {
         const data = QueryParamsRequest.encode(request).finish();
         const promise = this.rpc.request("pememoni.fairblock.fairblock.Query", "Params", data);
         return promise.then((data) => QueryParamsResponse.decode(new Reader(data)));
+    }
+    Share(request) {
+        const data = QueryGetShareRequest.encode(request).finish();
+        const promise = this.rpc.request("pememoni.fairblock.fairblock.Query", "Share", data);
+        return promise.then((data) => QueryGetShareResponse.decode(new Reader(data)));
+    }
+    ShareAll(request) {
+        const data = QueryAllShareRequest.encode(request).finish();
+        const promise = this.rpc.request("pememoni.fairblock.fairblock.Query", "ShareAll", data);
+        return promise.then((data) => QueryAllShareResponse.decode(new Reader(data)));
+    }
+    Target(request) {
+        const data = QueryGetTargetRequest.encode(request).finish();
+        const promise = this.rpc.request("pememoni.fairblock.fairblock.Query", "Target", data);
+        return promise.then((data) => QueryGetTargetResponse.decode(new Reader(data)));
+    }
+    TargetAll(request) {
+        const data = QueryAllTargetRequest.encode(request).finish();
+        const promise = this.rpc.request("pememoni.fairblock.fairblock.Query", "TargetAll", data);
+        return promise.then((data) => QueryAllTargetResponse.decode(new Reader(data)));
     }
 }

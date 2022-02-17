@@ -1,10 +1,14 @@
 import { Params } from "../fairblock/params";
+import { Share } from "../fairblock/share";
+import { Target } from "../fairblock/target";
 import { Writer, Reader } from "protobufjs/minimal";
 export declare const protobufPackage = "pememoni.fairblock.fairblock";
 /** GenesisState defines the fairblock module's genesis state. */
 export interface GenesisState {
-    /** this line is used by starport scaffolding # genesis/proto/state */
     params: Params | undefined;
+    shareList: Share[];
+    /** this line is used by starport scaffolding # genesis/proto/state */
+    targetList: Target[];
 }
 export declare const GenesisState: {
     encode(message: GenesisState, writer?: Writer): Writer;

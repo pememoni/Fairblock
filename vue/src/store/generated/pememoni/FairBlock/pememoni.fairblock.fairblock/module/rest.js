@@ -150,5 +150,63 @@ export class Api extends HttpClient {
             format: "json",
             ...params,
         });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryShareAll
+         * @summary Queries a list of Share items.
+         * @request GET:/pememoni/fairblock/fairblock/share
+         */
+        this.queryShareAll = (query, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/share`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryShare
+         * @summary Queries a Share by index.
+         * @request GET:/pememoni/fairblock/fairblock/share/{index}
+         */
+        this.queryShare = (index, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/share/${index}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryTargetAll
+         * @summary Queries a list of Target items.
+         * @request GET:/pememoni/fairblock/fairblock/target
+         */
+        this.queryTargetAll = (query, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/target`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryTarget
+         * @summary Queries a Target by index.
+         * @request GET:/pememoni/fairblock/fairblock/target/{index}
+         */
+        this.queryTarget = (index, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/target/${index}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
     }
 }

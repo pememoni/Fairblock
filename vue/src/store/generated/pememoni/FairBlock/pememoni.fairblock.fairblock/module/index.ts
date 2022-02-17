@@ -5,18 +5,18 @@ import { SigningStargateClient } from "@cosmjs/stargate";
 import { Registry, OfflineSigner, EncodeObject, DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { Api } from "./rest";
 import { MsgSubmitEncrypted } from "./types/fairblock/tx";
+import { MsgCommitDecryption } from "./types/fairblock/tx";
+import { MsgSubmitShare } from "./types/fairblock/tx";
 import { MsgSubmitTarget } from "./types/fairblock/tx";
 import { MsgRevealDecryption } from "./types/fairblock/tx";
-import { MsgSubmitShare } from "./types/fairblock/tx";
-import { MsgCommitDecryption } from "./types/fairblock/tx";
 
 
 const types = [
   ["/pememoni.fairblock.fairblock.MsgSubmitEncrypted", MsgSubmitEncrypted],
+  ["/pememoni.fairblock.fairblock.MsgCommitDecryption", MsgCommitDecryption],
+  ["/pememoni.fairblock.fairblock.MsgSubmitShare", MsgSubmitShare],
   ["/pememoni.fairblock.fairblock.MsgSubmitTarget", MsgSubmitTarget],
   ["/pememoni.fairblock.fairblock.MsgRevealDecryption", MsgRevealDecryption],
-  ["/pememoni.fairblock.fairblock.MsgSubmitShare", MsgSubmitShare],
-  ["/pememoni.fairblock.fairblock.MsgCommitDecryption", MsgCommitDecryption],
   
 ];
 export const MissingWalletError = new Error("wallet is required");
@@ -50,10 +50,10 @@ const txClient = async (wallet: OfflineSigner, { addr: addr }: TxClientOptions =
   return {
     signAndBroadcast: (msgs: EncodeObject[], { fee, memo }: SignAndBroadcastOptions = {fee: defaultFee, memo: ""}) => client.signAndBroadcast(address, msgs, fee,memo),
     msgSubmitEncrypted: (data: MsgSubmitEncrypted): EncodeObject => ({ typeUrl: "/pememoni.fairblock.fairblock.MsgSubmitEncrypted", value: MsgSubmitEncrypted.fromPartial( data ) }),
+    msgCommitDecryption: (data: MsgCommitDecryption): EncodeObject => ({ typeUrl: "/pememoni.fairblock.fairblock.MsgCommitDecryption", value: MsgCommitDecryption.fromPartial( data ) }),
+    msgSubmitShare: (data: MsgSubmitShare): EncodeObject => ({ typeUrl: "/pememoni.fairblock.fairblock.MsgSubmitShare", value: MsgSubmitShare.fromPartial( data ) }),
     msgSubmitTarget: (data: MsgSubmitTarget): EncodeObject => ({ typeUrl: "/pememoni.fairblock.fairblock.MsgSubmitTarget", value: MsgSubmitTarget.fromPartial( data ) }),
     msgRevealDecryption: (data: MsgRevealDecryption): EncodeObject => ({ typeUrl: "/pememoni.fairblock.fairblock.MsgRevealDecryption", value: MsgRevealDecryption.fromPartial( data ) }),
-    msgSubmitShare: (data: MsgSubmitShare): EncodeObject => ({ typeUrl: "/pememoni.fairblock.fairblock.MsgSubmitShare", value: MsgSubmitShare.fromPartial( data ) }),
-    msgCommitDecryption: (data: MsgCommitDecryption): EncodeObject => ({ typeUrl: "/pememoni.fairblock.fairblock.MsgCommitDecryption", value: MsgCommitDecryption.fromPartial( data ) }),
     
   };
 };
