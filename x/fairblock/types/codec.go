@@ -9,12 +9,16 @@ import (
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgSubmitEncrypted{}, "fairblock/SubmitEncrypted", nil)
+	cdc.RegisterConcrete(&MsgCommitDecryption{}, "fairblock/CommitDecryption", nil)
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgSubmitEncrypted{},
+	)
+	registry.RegisterImplementations((*sdk.Msg)(nil),
+		&MsgCommitDecryption{},
 	)
 	// this line is used by starport scaffolding # 3
 

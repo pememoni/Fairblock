@@ -8,6 +8,7 @@ option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
 // Msg defines the Msg service.
 service Msg {
       rpc SubmitEncrypted(MsgSubmitEncrypted) returns (MsgSubmitEncryptedResponse);
+  rpc CommitDecryption(MsgCommitDecryption) returns (MsgCommitDecryptionResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -20,6 +21,15 @@ message MsgSubmitEncrypted {
 }
 
 message MsgSubmitEncryptedResponse {
+}
+
+message MsgCommitDecryption {
+  string creator = 1;
+  string plaintextHash = 2;
+  string plaintextDecryptorHash = 3;
+}
+
+message MsgCommitDecryptionResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
