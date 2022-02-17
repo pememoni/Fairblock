@@ -36,6 +36,14 @@ export interface MsgSubmitShare {
 
 export interface MsgSubmitShareResponse {}
 
+export interface MsgSubmitTarget {
+  creator: string;
+  description: string;
+  targetHeight: string;
+}
+
+export interface MsgSubmitTargetResponse {}
+
 const baseMsgSubmitEncrypted: object = {
   creator: "",
   messageHash: "",
@@ -637,6 +645,147 @@ export const MsgSubmitShareResponse = {
   },
 };
 
+const baseMsgSubmitTarget: object = {
+  creator: "",
+  description: "",
+  targetHeight: "",
+};
+
+export const MsgSubmitTarget = {
+  encode(message: MsgSubmitTarget, writer: Writer = Writer.create()): Writer {
+    if (message.creator !== "") {
+      writer.uint32(10).string(message.creator);
+    }
+    if (message.description !== "") {
+      writer.uint32(18).string(message.description);
+    }
+    if (message.targetHeight !== "") {
+      writer.uint32(26).string(message.targetHeight);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgSubmitTarget {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseMsgSubmitTarget } as MsgSubmitTarget;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.creator = reader.string();
+          break;
+        case 2:
+          message.description = reader.string();
+          break;
+        case 3:
+          message.targetHeight = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): MsgSubmitTarget {
+    const message = { ...baseMsgSubmitTarget } as MsgSubmitTarget;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = String(object.creator);
+    } else {
+      message.creator = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = String(object.description);
+    } else {
+      message.description = "";
+    }
+    if (object.targetHeight !== undefined && object.targetHeight !== null) {
+      message.targetHeight = String(object.targetHeight);
+    } else {
+      message.targetHeight = "";
+    }
+    return message;
+  },
+
+  toJSON(message: MsgSubmitTarget): unknown {
+    const obj: any = {};
+    message.creator !== undefined && (obj.creator = message.creator);
+    message.description !== undefined &&
+      (obj.description = message.description);
+    message.targetHeight !== undefined &&
+      (obj.targetHeight = message.targetHeight);
+    return obj;
+  },
+
+  fromPartial(object: DeepPartial<MsgSubmitTarget>): MsgSubmitTarget {
+    const message = { ...baseMsgSubmitTarget } as MsgSubmitTarget;
+    if (object.creator !== undefined && object.creator !== null) {
+      message.creator = object.creator;
+    } else {
+      message.creator = "";
+    }
+    if (object.description !== undefined && object.description !== null) {
+      message.description = object.description;
+    } else {
+      message.description = "";
+    }
+    if (object.targetHeight !== undefined && object.targetHeight !== null) {
+      message.targetHeight = object.targetHeight;
+    } else {
+      message.targetHeight = "";
+    }
+    return message;
+  },
+};
+
+const baseMsgSubmitTargetResponse: object = {};
+
+export const MsgSubmitTargetResponse = {
+  encode(_: MsgSubmitTargetResponse, writer: Writer = Writer.create()): Writer {
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): MsgSubmitTargetResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseMsgSubmitTargetResponse,
+    } as MsgSubmitTargetResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(_: any): MsgSubmitTargetResponse {
+    const message = {
+      ...baseMsgSubmitTargetResponse,
+    } as MsgSubmitTargetResponse;
+    return message;
+  },
+
+  toJSON(_: MsgSubmitTargetResponse): unknown {
+    const obj: any = {};
+    return obj;
+  },
+
+  fromPartial(
+    _: DeepPartial<MsgSubmitTargetResponse>
+  ): MsgSubmitTargetResponse {
+    const message = {
+      ...baseMsgSubmitTargetResponse,
+    } as MsgSubmitTargetResponse;
+    return message;
+  },
+};
+
 /** Msg defines the Msg service. */
 export interface Msg {
   SubmitEncrypted(
@@ -648,8 +797,9 @@ export interface Msg {
   RevealDecryption(
     request: MsgRevealDecryption
   ): Promise<MsgRevealDecryptionResponse>;
-  /** this line is used by starport scaffolding # proto/tx/rpc */
   SubmitShare(request: MsgSubmitShare): Promise<MsgSubmitShareResponse>;
+  /** this line is used by starport scaffolding # proto/tx/rpc */
+  SubmitTarget(request: MsgSubmitTarget): Promise<MsgSubmitTargetResponse>;
 }
 
 export class MsgClientImpl implements Msg {
@@ -708,6 +858,18 @@ export class MsgClientImpl implements Msg {
     );
     return promise.then((data) =>
       MsgSubmitShareResponse.decode(new Reader(data))
+    );
+  }
+
+  SubmitTarget(request: MsgSubmitTarget): Promise<MsgSubmitTargetResponse> {
+    const data = MsgSubmitTarget.encode(request).finish();
+    const promise = this.rpc.request(
+      "pememoni.fairblock.fairblock.Msg",
+      "SubmitTarget",
+      data
+    );
+    return promise.then((data) =>
+      MsgSubmitTargetResponse.decode(new Reader(data))
     );
   }
 }

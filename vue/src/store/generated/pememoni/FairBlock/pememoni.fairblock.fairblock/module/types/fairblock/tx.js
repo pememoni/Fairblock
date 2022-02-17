@@ -543,6 +543,139 @@ export const MsgSubmitShareResponse = {
         return message;
     },
 };
+const baseMsgSubmitTarget = {
+    creator: "",
+    description: "",
+    targetHeight: "",
+};
+export const MsgSubmitTarget = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.description !== "") {
+            writer.uint32(18).string(message.description);
+        }
+        if (message.targetHeight !== "") {
+            writer.uint32(26).string(message.targetHeight);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgSubmitTarget };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.description = reader.string();
+                    break;
+                case 3:
+                    message.targetHeight = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgSubmitTarget };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.description !== undefined && object.description !== null) {
+            message.description = String(object.description);
+        }
+        else {
+            message.description = "";
+        }
+        if (object.targetHeight !== undefined && object.targetHeight !== null) {
+            message.targetHeight = String(object.targetHeight);
+        }
+        else {
+            message.targetHeight = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.description !== undefined &&
+            (obj.description = message.description);
+        message.targetHeight !== undefined &&
+            (obj.targetHeight = message.targetHeight);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgSubmitTarget };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.description !== undefined && object.description !== null) {
+            message.description = object.description;
+        }
+        else {
+            message.description = "";
+        }
+        if (object.targetHeight !== undefined && object.targetHeight !== null) {
+            message.targetHeight = object.targetHeight;
+        }
+        else {
+            message.targetHeight = "";
+        }
+        return message;
+    },
+};
+const baseMsgSubmitTargetResponse = {};
+export const MsgSubmitTargetResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgSubmitTargetResponse,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = {
+            ...baseMsgSubmitTargetResponse,
+        };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = {
+            ...baseMsgSubmitTargetResponse,
+        };
+        return message;
+    },
+};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -566,5 +699,10 @@ export class MsgClientImpl {
         const data = MsgSubmitShare.encode(request).finish();
         const promise = this.rpc.request("pememoni.fairblock.fairblock.Msg", "SubmitShare", data);
         return promise.then((data) => MsgSubmitShareResponse.decode(new Reader(data)));
+    }
+    SubmitTarget(request) {
+        const data = MsgSubmitTarget.encode(request).finish();
+        const promise = this.rpc.request("pememoni.fairblock.fairblock.Msg", "SubmitTarget", data);
+        return promise.then((data) => MsgSubmitTargetResponse.decode(new Reader(data)));
     }
 }

@@ -29,6 +29,13 @@ export interface MsgSubmitShare {
 }
 export interface MsgSubmitShareResponse {
 }
+export interface MsgSubmitTarget {
+    creator: string;
+    description: string;
+    targetHeight: string;
+}
+export interface MsgSubmitTargetResponse {
+}
 export declare const MsgSubmitEncrypted: {
     encode(message: MsgSubmitEncrypted, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgSubmitEncrypted;
@@ -85,13 +92,28 @@ export declare const MsgSubmitShareResponse: {
     toJSON(_: MsgSubmitShareResponse): unknown;
     fromPartial(_: DeepPartial<MsgSubmitShareResponse>): MsgSubmitShareResponse;
 };
+export declare const MsgSubmitTarget: {
+    encode(message: MsgSubmitTarget, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubmitTarget;
+    fromJSON(object: any): MsgSubmitTarget;
+    toJSON(message: MsgSubmitTarget): unknown;
+    fromPartial(object: DeepPartial<MsgSubmitTarget>): MsgSubmitTarget;
+};
+export declare const MsgSubmitTargetResponse: {
+    encode(_: MsgSubmitTargetResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubmitTargetResponse;
+    fromJSON(_: any): MsgSubmitTargetResponse;
+    toJSON(_: MsgSubmitTargetResponse): unknown;
+    fromPartial(_: DeepPartial<MsgSubmitTargetResponse>): MsgSubmitTargetResponse;
+};
 /** Msg defines the Msg service. */
 export interface Msg {
     SubmitEncrypted(request: MsgSubmitEncrypted): Promise<MsgSubmitEncryptedResponse>;
     CommitDecryption(request: MsgCommitDecryption): Promise<MsgCommitDecryptionResponse>;
     RevealDecryption(request: MsgRevealDecryption): Promise<MsgRevealDecryptionResponse>;
-    /** this line is used by starport scaffolding # proto/tx/rpc */
     SubmitShare(request: MsgSubmitShare): Promise<MsgSubmitShareResponse>;
+    /** this line is used by starport scaffolding # proto/tx/rpc */
+    SubmitTarget(request: MsgSubmitTarget): Promise<MsgSubmitTargetResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
@@ -100,6 +122,7 @@ export declare class MsgClientImpl implements Msg {
     CommitDecryption(request: MsgCommitDecryption): Promise<MsgCommitDecryptionResponse>;
     RevealDecryption(request: MsgRevealDecryption): Promise<MsgRevealDecryptionResponse>;
     SubmitShare(request: MsgSubmitShare): Promise<MsgSubmitShareResponse>;
+    SubmitTarget(request: MsgSubmitTarget): Promise<MsgSubmitTargetResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

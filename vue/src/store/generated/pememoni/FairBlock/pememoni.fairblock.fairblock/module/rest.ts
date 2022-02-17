@@ -17,6 +17,8 @@ export type FairblockMsgSubmitEncryptedResponse = object;
 
 export type FairblockMsgSubmitShareResponse = object;
 
+export type FairblockMsgSubmitTargetResponse = object;
+
 /**
  * Params defines the parameters for the module.
  */

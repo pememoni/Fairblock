@@ -11,6 +11,7 @@ service Msg {
   rpc CommitDecryption(MsgCommitDecryption) returns (MsgCommitDecryptionResponse);
   rpc RevealDecryption(MsgRevealDecryption) returns (MsgRevealDecryptionResponse);
   rpc SubmitShare(MsgSubmitShare) returns (MsgSubmitShareResponse);
+  rpc SubmitTarget(MsgSubmitTarget) returns (MsgSubmitTargetResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -49,6 +50,15 @@ message MsgSubmitShare {
 }
 
 message MsgSubmitShareResponse {
+}
+
+message MsgSubmitTarget {
+  string creator = 1;
+  string description = 2;
+  string targetHeight = 3;
+}
+
+message MsgSubmitTargetResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message
