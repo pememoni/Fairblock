@@ -130,12 +130,70 @@ export class HttpClient {
     }
 }
 /**
- * @title fairblock/genesis.proto
+ * @title fairblock/commit.proto
  * @version version not set
  */
 export class Api extends HttpClient {
     constructor() {
         super(...arguments);
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryCommitAll
+         * @summary Queries a list of Commit items.
+         * @request GET:/pememoni/fairblock/fairblock/commit
+         */
+        this.queryCommitAll = (query, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/commit`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryCommit
+         * @summary Queries a Commit by index.
+         * @request GET:/pememoni/fairblock/fairblock/commit/{index}
+         */
+        this.queryCommit = (index, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/commit/${index}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryEncryptedtxAll
+         * @summary Queries a list of Encryptedtx items.
+         * @request GET:/pememoni/fairblock/fairblock/encryptedtx
+         */
+        this.queryEncryptedtxAll = (query, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/encryptedtx`,
+            method: "GET",
+            query: query,
+            format: "json",
+            ...params,
+        });
+        /**
+         * No description
+         *
+         * @tags Query
+         * @name QueryEncryptedtx
+         * @summary Queries a Encryptedtx by index.
+         * @request GET:/pememoni/fairblock/fairblock/encryptedtx/{index}
+         */
+        this.queryEncryptedtx = (index, params = {}) => this.request({
+            path: `/pememoni/fairblock/fairblock/encryptedtx/${index}`,
+            method: "GET",
+            format: "json",
+            ...params,
+        });
         /**
          * No description
          *

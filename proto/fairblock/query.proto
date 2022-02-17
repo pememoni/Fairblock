@@ -7,6 +7,8 @@ import "cosmos/base/query/v1beta1/pagination.proto";
 import "fairblock/params.proto";
 import "fairblock/share.proto";
 import "fairblock/target.proto";
+import "fairblock/commit.proto";
+import "fairblock/encryptedtx.proto";
 // this line is used by starport scaffolding # 1
 
 option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
@@ -35,6 +37,26 @@ service Query {
 	// Queries a list of Target items.
 	rpc TargetAll(QueryAllTargetRequest) returns (QueryAllTargetResponse) {
 		option (google.api.http).get = "/pememoni/fairblock/fairblock/target";
+	}
+
+// Queries a Commit by index.
+	rpc Commit(QueryGetCommitRequest) returns (QueryGetCommitResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/commit/{index}";
+	}
+
+	// Queries a list of Commit items.
+	rpc CommitAll(QueryAllCommitRequest) returns (QueryAllCommitResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/commit";
+	}
+
+// Queries a Encryptedtx by index.
+	rpc Encryptedtx(QueryGetEncryptedtxRequest) returns (QueryGetEncryptedtxResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/encryptedtx/{index}";
+	}
+
+	// Queries a list of Encryptedtx items.
+	rpc EncryptedtxAll(QueryAllEncryptedtxRequest) returns (QueryAllEncryptedtxResponse) {
+		option (google.api.http).get = "/pememoni/fairblock/fairblock/encryptedtx";
 	}
 
 // this line is used by starport scaffolding # 2
@@ -82,6 +104,42 @@ message QueryAllTargetRequest {
 
 message QueryAllTargetResponse {
 	repeated Target target = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetCommitRequest {
+	  string index = 1;
+
+}
+
+message QueryGetCommitResponse {
+	Commit commit = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllCommitRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllCommitResponse {
+	repeated Commit commit = 1 [(gogoproto.nullable) = false];
+	cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+message QueryGetEncryptedtxRequest {
+	  string index = 1;
+
+}
+
+message QueryGetEncryptedtxResponse {
+	Encryptedtx encryptedtx = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryAllEncryptedtxRequest {
+	cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+message QueryAllEncryptedtxResponse {
+	repeated Encryptedtx encryptedtx = 1 [(gogoproto.nullable) = false];
 	cosmos.base.query.v1beta1.PageResponse pagination = 2;
 }
 

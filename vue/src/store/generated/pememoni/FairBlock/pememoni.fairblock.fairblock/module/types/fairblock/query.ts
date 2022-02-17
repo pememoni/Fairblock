@@ -7,6 +7,8 @@ import {
   PageResponse,
 } from "../cosmos/base/query/v1beta1/pagination";
 import { Target } from "../fairblock/target";
+import { Commit } from "../fairblock/commit";
+import { Encryptedtx } from "../fairblock/encryptedtx";
 
 export const protobufPackage = "pememoni.fairblock.fairblock";
 
@@ -50,6 +52,40 @@ export interface QueryAllTargetRequest {
 
 export interface QueryAllTargetResponse {
   target: Target[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetCommitRequest {
+  index: string;
+}
+
+export interface QueryGetCommitResponse {
+  commit: Commit | undefined;
+}
+
+export interface QueryAllCommitRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllCommitResponse {
+  commit: Commit[];
+  pagination: PageResponse | undefined;
+}
+
+export interface QueryGetEncryptedtxRequest {
+  index: string;
+}
+
+export interface QueryGetEncryptedtxResponse {
+  encryptedtx: Encryptedtx | undefined;
+}
+
+export interface QueryAllEncryptedtxRequest {
+  pagination: PageRequest | undefined;
+}
+
+export interface QueryAllEncryptedtxResponse {
+  encryptedtx: Encryptedtx[];
   pagination: PageResponse | undefined;
 }
 
@@ -696,6 +732,599 @@ export const QueryAllTargetResponse = {
   },
 };
 
+const baseQueryGetCommitRequest: object = { index: "" };
+
+export const QueryGetCommitRequest = {
+  encode(
+    message: QueryGetCommitRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.index !== "") {
+      writer.uint32(10).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetCommitRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetCommitRequest } as QueryGetCommitRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetCommitRequest {
+    const message = { ...baseQueryGetCommitRequest } as QueryGetCommitRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index);
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetCommitRequest): unknown {
+    const obj: any = {};
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetCommitRequest>
+  ): QueryGetCommitRequest {
+    const message = { ...baseQueryGetCommitRequest } as QueryGetCommitRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index;
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetCommitResponse: object = {};
+
+export const QueryGetCommitResponse = {
+  encode(
+    message: QueryGetCommitResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.commit !== undefined) {
+      Commit.encode(message.commit, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryGetCommitResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryGetCommitResponse } as QueryGetCommitResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.commit = Commit.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetCommitResponse {
+    const message = { ...baseQueryGetCommitResponse } as QueryGetCommitResponse;
+    if (object.commit !== undefined && object.commit !== null) {
+      message.commit = Commit.fromJSON(object.commit);
+    } else {
+      message.commit = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetCommitResponse): unknown {
+    const obj: any = {};
+    message.commit !== undefined &&
+      (obj.commit = message.commit ? Commit.toJSON(message.commit) : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetCommitResponse>
+  ): QueryGetCommitResponse {
+    const message = { ...baseQueryGetCommitResponse } as QueryGetCommitResponse;
+    if (object.commit !== undefined && object.commit !== null) {
+      message.commit = Commit.fromPartial(object.commit);
+    } else {
+      message.commit = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllCommitRequest: object = {};
+
+export const QueryAllCommitRequest = {
+  encode(
+    message: QueryAllCommitRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllCommitRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllCommitRequest } as QueryAllCommitRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllCommitRequest {
+    const message = { ...baseQueryAllCommitRequest } as QueryAllCommitRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllCommitRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllCommitRequest>
+  ): QueryAllCommitRequest {
+    const message = { ...baseQueryAllCommitRequest } as QueryAllCommitRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllCommitResponse: object = {};
+
+export const QueryAllCommitResponse = {
+  encode(
+    message: QueryAllCommitResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.commit) {
+      Commit.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(input: Reader | Uint8Array, length?: number): QueryAllCommitResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = { ...baseQueryAllCommitResponse } as QueryAllCommitResponse;
+    message.commit = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.commit.push(Commit.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllCommitResponse {
+    const message = { ...baseQueryAllCommitResponse } as QueryAllCommitResponse;
+    message.commit = [];
+    if (object.commit !== undefined && object.commit !== null) {
+      for (const e of object.commit) {
+        message.commit.push(Commit.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllCommitResponse): unknown {
+    const obj: any = {};
+    if (message.commit) {
+      obj.commit = message.commit.map((e) =>
+        e ? Commit.toJSON(e) : undefined
+      );
+    } else {
+      obj.commit = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllCommitResponse>
+  ): QueryAllCommitResponse {
+    const message = { ...baseQueryAllCommitResponse } as QueryAllCommitResponse;
+    message.commit = [];
+    if (object.commit !== undefined && object.commit !== null) {
+      for (const e of object.commit) {
+        message.commit.push(Commit.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryGetEncryptedtxRequest: object = { index: "" };
+
+export const QueryGetEncryptedtxRequest = {
+  encode(
+    message: QueryGetEncryptedtxRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.index !== "") {
+      writer.uint32(10).string(message.index);
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetEncryptedtxRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetEncryptedtxRequest,
+    } as QueryGetEncryptedtxRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.index = reader.string();
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetEncryptedtxRequest {
+    const message = {
+      ...baseQueryGetEncryptedtxRequest,
+    } as QueryGetEncryptedtxRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = String(object.index);
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetEncryptedtxRequest): unknown {
+    const obj: any = {};
+    message.index !== undefined && (obj.index = message.index);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetEncryptedtxRequest>
+  ): QueryGetEncryptedtxRequest {
+    const message = {
+      ...baseQueryGetEncryptedtxRequest,
+    } as QueryGetEncryptedtxRequest;
+    if (object.index !== undefined && object.index !== null) {
+      message.index = object.index;
+    } else {
+      message.index = "";
+    }
+    return message;
+  },
+};
+
+const baseQueryGetEncryptedtxResponse: object = {};
+
+export const QueryGetEncryptedtxResponse = {
+  encode(
+    message: QueryGetEncryptedtxResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.encryptedtx !== undefined) {
+      Encryptedtx.encode(
+        message.encryptedtx,
+        writer.uint32(10).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryGetEncryptedtxResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryGetEncryptedtxResponse,
+    } as QueryGetEncryptedtxResponse;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.encryptedtx = Encryptedtx.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryGetEncryptedtxResponse {
+    const message = {
+      ...baseQueryGetEncryptedtxResponse,
+    } as QueryGetEncryptedtxResponse;
+    if (object.encryptedtx !== undefined && object.encryptedtx !== null) {
+      message.encryptedtx = Encryptedtx.fromJSON(object.encryptedtx);
+    } else {
+      message.encryptedtx = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryGetEncryptedtxResponse): unknown {
+    const obj: any = {};
+    message.encryptedtx !== undefined &&
+      (obj.encryptedtx = message.encryptedtx
+        ? Encryptedtx.toJSON(message.encryptedtx)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryGetEncryptedtxResponse>
+  ): QueryGetEncryptedtxResponse {
+    const message = {
+      ...baseQueryGetEncryptedtxResponse,
+    } as QueryGetEncryptedtxResponse;
+    if (object.encryptedtx !== undefined && object.encryptedtx !== null) {
+      message.encryptedtx = Encryptedtx.fromPartial(object.encryptedtx);
+    } else {
+      message.encryptedtx = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllEncryptedtxRequest: object = {};
+
+export const QueryAllEncryptedtxRequest = {
+  encode(
+    message: QueryAllEncryptedtxRequest,
+    writer: Writer = Writer.create()
+  ): Writer {
+    if (message.pagination !== undefined) {
+      PageRequest.encode(message.pagination, writer.uint32(10).fork()).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllEncryptedtxRequest {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllEncryptedtxRequest,
+    } as QueryAllEncryptedtxRequest;
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.pagination = PageRequest.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllEncryptedtxRequest {
+    const message = {
+      ...baseQueryAllEncryptedtxRequest,
+    } as QueryAllEncryptedtxRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllEncryptedtxRequest): unknown {
+    const obj: any = {};
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageRequest.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllEncryptedtxRequest>
+  ): QueryAllEncryptedtxRequest {
+    const message = {
+      ...baseQueryAllEncryptedtxRequest,
+    } as QueryAllEncryptedtxRequest;
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageRequest.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
+const baseQueryAllEncryptedtxResponse: object = {};
+
+export const QueryAllEncryptedtxResponse = {
+  encode(
+    message: QueryAllEncryptedtxResponse,
+    writer: Writer = Writer.create()
+  ): Writer {
+    for (const v of message.encryptedtx) {
+      Encryptedtx.encode(v!, writer.uint32(10).fork()).ldelim();
+    }
+    if (message.pagination !== undefined) {
+      PageResponse.encode(
+        message.pagination,
+        writer.uint32(18).fork()
+      ).ldelim();
+    }
+    return writer;
+  },
+
+  decode(
+    input: Reader | Uint8Array,
+    length?: number
+  ): QueryAllEncryptedtxResponse {
+    const reader = input instanceof Uint8Array ? new Reader(input) : input;
+    let end = length === undefined ? reader.len : reader.pos + length;
+    const message = {
+      ...baseQueryAllEncryptedtxResponse,
+    } as QueryAllEncryptedtxResponse;
+    message.encryptedtx = [];
+    while (reader.pos < end) {
+      const tag = reader.uint32();
+      switch (tag >>> 3) {
+        case 1:
+          message.encryptedtx.push(Encryptedtx.decode(reader, reader.uint32()));
+          break;
+        case 2:
+          message.pagination = PageResponse.decode(reader, reader.uint32());
+          break;
+        default:
+          reader.skipType(tag & 7);
+          break;
+      }
+    }
+    return message;
+  },
+
+  fromJSON(object: any): QueryAllEncryptedtxResponse {
+    const message = {
+      ...baseQueryAllEncryptedtxResponse,
+    } as QueryAllEncryptedtxResponse;
+    message.encryptedtx = [];
+    if (object.encryptedtx !== undefined && object.encryptedtx !== null) {
+      for (const e of object.encryptedtx) {
+        message.encryptedtx.push(Encryptedtx.fromJSON(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromJSON(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+
+  toJSON(message: QueryAllEncryptedtxResponse): unknown {
+    const obj: any = {};
+    if (message.encryptedtx) {
+      obj.encryptedtx = message.encryptedtx.map((e) =>
+        e ? Encryptedtx.toJSON(e) : undefined
+      );
+    } else {
+      obj.encryptedtx = [];
+    }
+    message.pagination !== undefined &&
+      (obj.pagination = message.pagination
+        ? PageResponse.toJSON(message.pagination)
+        : undefined);
+    return obj;
+  },
+
+  fromPartial(
+    object: DeepPartial<QueryAllEncryptedtxResponse>
+  ): QueryAllEncryptedtxResponse {
+    const message = {
+      ...baseQueryAllEncryptedtxResponse,
+    } as QueryAllEncryptedtxResponse;
+    message.encryptedtx = [];
+    if (object.encryptedtx !== undefined && object.encryptedtx !== null) {
+      for (const e of object.encryptedtx) {
+        message.encryptedtx.push(Encryptedtx.fromPartial(e));
+      }
+    }
+    if (object.pagination !== undefined && object.pagination !== null) {
+      message.pagination = PageResponse.fromPartial(object.pagination);
+    } else {
+      message.pagination = undefined;
+    }
+    return message;
+  },
+};
+
 /** Query defines the gRPC querier service. */
 export interface Query {
   /** Parameters queries the parameters of the module. */
@@ -708,6 +1337,18 @@ export interface Query {
   Target(request: QueryGetTargetRequest): Promise<QueryGetTargetResponse>;
   /** Queries a list of Target items. */
   TargetAll(request: QueryAllTargetRequest): Promise<QueryAllTargetResponse>;
+  /** Queries a Commit by index. */
+  Commit(request: QueryGetCommitRequest): Promise<QueryGetCommitResponse>;
+  /** Queries a list of Commit items. */
+  CommitAll(request: QueryAllCommitRequest): Promise<QueryAllCommitResponse>;
+  /** Queries a Encryptedtx by index. */
+  Encryptedtx(
+    request: QueryGetEncryptedtxRequest
+  ): Promise<QueryGetEncryptedtxResponse>;
+  /** Queries a list of Encryptedtx items. */
+  EncryptedtxAll(
+    request: QueryAllEncryptedtxRequest
+  ): Promise<QueryAllEncryptedtxResponse>;
 }
 
 export class QueryClientImpl implements Query {
@@ -770,6 +1411,58 @@ export class QueryClientImpl implements Query {
     );
     return promise.then((data) =>
       QueryAllTargetResponse.decode(new Reader(data))
+    );
+  }
+
+  Commit(request: QueryGetCommitRequest): Promise<QueryGetCommitResponse> {
+    const data = QueryGetCommitRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "pememoni.fairblock.fairblock.Query",
+      "Commit",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetCommitResponse.decode(new Reader(data))
+    );
+  }
+
+  CommitAll(request: QueryAllCommitRequest): Promise<QueryAllCommitResponse> {
+    const data = QueryAllCommitRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "pememoni.fairblock.fairblock.Query",
+      "CommitAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllCommitResponse.decode(new Reader(data))
+    );
+  }
+
+  Encryptedtx(
+    request: QueryGetEncryptedtxRequest
+  ): Promise<QueryGetEncryptedtxResponse> {
+    const data = QueryGetEncryptedtxRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "pememoni.fairblock.fairblock.Query",
+      "Encryptedtx",
+      data
+    );
+    return promise.then((data) =>
+      QueryGetEncryptedtxResponse.decode(new Reader(data))
+    );
+  }
+
+  EncryptedtxAll(
+    request: QueryAllEncryptedtxRequest
+  ): Promise<QueryAllEncryptedtxResponse> {
+    const data = QueryAllEncryptedtxRequest.encode(request).finish();
+    const promise = this.rpc.request(
+      "pememoni.fairblock.fairblock.Query",
+      "EncryptedtxAll",
+      data
+    );
+    return promise.then((data) =>
+      QueryAllEncryptedtxResponse.decode(new Reader(data))
     );
   }
 }

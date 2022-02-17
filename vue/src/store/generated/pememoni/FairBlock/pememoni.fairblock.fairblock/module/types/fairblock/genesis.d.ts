@@ -1,14 +1,18 @@
 import { Params } from "../fairblock/params";
 import { Share } from "../fairblock/share";
 import { Target } from "../fairblock/target";
+import { Commit } from "../fairblock/commit";
+import { Encryptedtx } from "../fairblock/encryptedtx";
 import { Writer, Reader } from "protobufjs/minimal";
 export declare const protobufPackage = "pememoni.fairblock.fairblock";
 /** GenesisState defines the fairblock module's genesis state. */
 export interface GenesisState {
     params: Params | undefined;
     shareList: Share[];
-    /** this line is used by starport scaffolding # genesis/proto/state */
     targetList: Target[];
+    commitList: Commit[];
+    /** this line is used by starport scaffolding # genesis/proto/state */
+    encryptedtxList: Encryptedtx[];
 }
 export declare const GenesisState: {
     encode(message: GenesisState, writer?: Writer): Writer;

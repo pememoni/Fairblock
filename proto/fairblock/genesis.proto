@@ -5,6 +5,8 @@ import "gogoproto/gogo.proto";
 import "fairblock/params.proto";
 import "fairblock/share.proto";
 import "fairblock/target.proto";
+import "fairblock/commit.proto";
+import "fairblock/encryptedtx.proto";
 // this line is used by starport scaffolding # genesis/proto/import
 
 option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
@@ -14,5 +16,7 @@ message GenesisState {
   Params params = 1 [(gogoproto.nullable) = false];
   repeated Share shareList = 2 [(gogoproto.nullable) = false];
   repeated Target targetList = 3 [(gogoproto.nullable) = false];
+  repeated Commit commitList = 4 [(gogoproto.nullable) = false];
+  repeated Encryptedtx encryptedtxList = 5 [(gogoproto.nullable) = false];
   // this line is used by starport scaffolding # genesis/proto/state
 }

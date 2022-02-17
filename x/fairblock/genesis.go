@@ -17,6 +17,14 @@ func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) 
 	for _, elem := range genState.TargetList {
 		k.SetTarget(ctx, elem)
 	}
+	// Set all the commit
+	for _, elem := range genState.CommitList {
+		k.SetCommit(ctx, elem)
+	}
+	// Set all the encryptedtx
+	for _, elem := range genState.EncryptedtxList {
+		k.SetEncryptedtx(ctx, elem)
+	}
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
 }
@@ -28,6 +36,8 @@ func ExportGenesis(ctx sdk.Context, k keeper.Keeper) *types.GenesisState {
 
 	genesis.ShareList = k.GetAllShare(ctx)
 	genesis.TargetList = k.GetAllTarget(ctx)
+	genesis.CommitList = k.GetAllCommit(ctx)
+	genesis.EncryptedtxList = k.GetAllEncryptedtx(ctx)
 	// this line is used by starport scaffolding # genesis/module/export
 
 	return genesis

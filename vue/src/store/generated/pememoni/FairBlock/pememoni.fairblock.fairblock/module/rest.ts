@@ -9,6 +9,22 @@
  * ---------------------------------------------------------------
  */
 
+export interface FairblockCommit {
+  index?: string;
+  plaintextHash?: string;
+  plaintextDecryptorHash?: string;
+}
+
+export interface FairblockEncryptedtx {
+  index?: string;
+  messageHash?: string;
+  encryption?: string;
+  plaintext?: string;
+  targetHeight?: string;
+  deposit?: string;
+  decryptor?: string;
+}
+
 export type FairblockMsgCommitDecryptionResponse = object;
 
 export type FairblockMsgRevealDecryptionResponse = object;
@@ -23,6 +39,36 @@ export type FairblockMsgSubmitTargetResponse = object;
  * Params defines the parameters for the module.
  */
 export type FairblockParams = object;
+
+export interface FairblockQueryAllCommitResponse {
+  commit?: FairblockCommit[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
+
+export interface FairblockQueryAllEncryptedtxResponse {
+  encryptedtx?: FairblockEncryptedtx[];
+
+  /**
+   * PageResponse is to be embedded in gRPC response messages where the
+   * corresponding request message has used PageRequest.
+   *
+   *  message SomeResponse {
+   *          repeated Bar results = 1;
+   *          PageResponse page = 2;
+   *  }
+   */
+  pagination?: V1Beta1PageResponse;
+}
 
 export interface FairblockQueryAllShareResponse {
   share?: FairblockShare[];
@@ -52,6 +98,14 @@ export interface FairblockQueryAllTargetResponse {
    *  }
    */
   pagination?: V1Beta1PageResponse;
+}
+
+export interface FairblockQueryGetCommitResponse {
+  commit?: FairblockCommit;
+}
+
+export interface FairblockQueryGetEncryptedtxResponse {
+  encryptedtx?: FairblockEncryptedtx;
 }
 
 export interface FairblockQueryGetShareResponse {
@@ -348,10 +402,94 @@ export class HttpClient<SecurityDataType = unknown> {
 }
 
 /**
- * @title fairblock/genesis.proto
+ * @title fairblock/commit.proto
  * @version version not set
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCommitAll
+   * @summary Queries a list of Commit items.
+   * @request GET:/pememoni/fairblock/fairblock/commit
+   */
+  queryCommitAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<FairblockQueryAllCommitResponse, RpcStatus>({
+      path: `/pememoni/fairblock/fairblock/commit`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryCommit
+   * @summary Queries a Commit by index.
+   * @request GET:/pememoni/fairblock/fairblock/commit/{index}
+   */
+  queryCommit = (index: string, params: RequestParams = {}) =>
+    this.request<FairblockQueryGetCommitResponse, RpcStatus>({
+      path: `/pememoni/fairblock/fairblock/commit/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryEncryptedtxAll
+   * @summary Queries a list of Encryptedtx items.
+   * @request GET:/pememoni/fairblock/fairblock/encryptedtx
+   */
+  queryEncryptedtxAll = (
+    query?: {
+      "pagination.key"?: string;
+      "pagination.offset"?: string;
+      "pagination.limit"?: string;
+      "pagination.countTotal"?: boolean;
+      "pagination.reverse"?: boolean;
+    },
+    params: RequestParams = {},
+  ) =>
+    this.request<FairblockQueryAllEncryptedtxResponse, RpcStatus>({
+      path: `/pememoni/fairblock/fairblock/encryptedtx`,
+      method: "GET",
+      query: query,
+      format: "json",
+      ...params,
+    });
+
+  /**
+   * No description
+   *
+   * @tags Query
+   * @name QueryEncryptedtx
+   * @summary Queries a Encryptedtx by index.
+   * @request GET:/pememoni/fairblock/fairblock/encryptedtx/{index}
+   */
+  queryEncryptedtx = (index: string, params: RequestParams = {}) =>
+    this.request<FairblockQueryGetEncryptedtxResponse, RpcStatus>({
+      path: `/pememoni/fairblock/fairblock/encryptedtx/${index}`,
+      method: "GET",
+      format: "json",
+      ...params,
+    });
+
   /**
    * No description
    *

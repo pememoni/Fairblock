@@ -1,0 +1,16 @@
+syntax = "proto3";
+package pememoni.fairblock.fairblock;
+
+option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
+
+message Encryptedtx {
+  string index = 1; 
+  string messageHash = 2; 
+  string encryption = 3; 
+  string plaintext = 4; 
+  string targetHeight = 5; 
+  string deposit = 6; 
+  string decryptor = 7; 
+  
+}
+

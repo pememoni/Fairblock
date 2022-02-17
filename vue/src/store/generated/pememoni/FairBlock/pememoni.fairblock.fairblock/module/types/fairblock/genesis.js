@@ -2,6 +2,8 @@
 import { Params } from "../fairblock/params";
 import { Share } from "../fairblock/share";
 import { Target } from "../fairblock/target";
+import { Commit } from "../fairblock/commit";
+import { Encryptedtx } from "../fairblock/encryptedtx";
 import { Writer, Reader } from "protobufjs/minimal";
 export const protobufPackage = "pememoni.fairblock.fairblock";
 const baseGenesisState = {};
@@ -16,6 +18,12 @@ export const GenesisState = {
         for (const v of message.targetList) {
             Target.encode(v, writer.uint32(26).fork()).ldelim();
         }
+        for (const v of message.commitList) {
+            Commit.encode(v, writer.uint32(34).fork()).ldelim();
+        }
+        for (const v of message.encryptedtxList) {
+            Encryptedtx.encode(v, writer.uint32(42).fork()).ldelim();
+        }
         return writer;
     },
     decode(input, length) {
@@ -24,6 +32,8 @@ export const GenesisState = {
         const message = { ...baseGenesisState };
         message.shareList = [];
         message.targetList = [];
+        message.commitList = [];
+        message.encryptedtxList = [];
         while (reader.pos < end) {
             const tag = reader.uint32();
             switch (tag >>> 3) {
@@ -36,6 +46,12 @@ export const GenesisState = {
                 case 3:
                     message.targetList.push(Target.decode(reader, reader.uint32()));
                     break;
+                case 4:
+                    message.commitList.push(Commit.decode(reader, reader.uint32()));
+                    break;
+                case 5:
+                    message.encryptedtxList.push(Encryptedtx.decode(reader, reader.uint32()));
+                    break;
                 default:
                     reader.skipType(tag & 7);
                     break;
@@ -47,6 +63,8 @@ export const GenesisState = {
         const message = { ...baseGenesisState };
         message.shareList = [];
         message.targetList = [];
+        message.commitList = [];
+        message.encryptedtxList = [];
         if (object.params !== undefined && object.params !== null) {
             message.params = Params.fromJSON(object.params);
         }
@@ -61,6 +79,17 @@ export const GenesisState = {
         if (object.targetList !== undefined && object.targetList !== null) {
             for (const e of object.targetList) {
                 message.targetList.push(Target.fromJSON(e));
+            }
+        }
+        if (object.commitList !== undefined && object.commitList !== null) {
+            for (const e of object.commitList) {
+                message.commitList.push(Commit.fromJSON(e));
+            }
+        }
+        if (object.encryptedtxList !== undefined &&
+            object.encryptedtxList !== null) {
+            for (const e of object.encryptedtxList) {
+                message.encryptedtxList.push(Encryptedtx.fromJSON(e));
             }
         }
         return message;
@@ -81,12 +110,26 @@ export const GenesisState = {
         else {
             obj.targetList = [];
         }
+        if (message.commitList) {
+            obj.commitList = message.commitList.map((e) => e ? Commit.toJSON(e) : undefined);
+        }
+        else {
+            obj.commitList = [];
+        }
+        if (message.encryptedtxList) {
+            obj.encryptedtxList = message.encryptedtxList.map((e) => e ? Encryptedtx.toJSON(e) : undefined);
+        }
+        else {
+            obj.encryptedtxList = [];
+        }
         return obj;
     },
     fromPartial(object) {
         const message = { ...baseGenesisState };
         message.shareList = [];
         message.targetList = [];
+        message.commitList = [];
+        message.encryptedtxList = [];
         if (object.params !== undefined && object.params !== null) {
             message.params = Params.fromPartial(object.params);
         }
@@ -101,6 +144,17 @@ export const GenesisState = {
         if (object.targetList !== undefined && object.targetList !== null) {
             for (const e of object.targetList) {
                 message.targetList.push(Target.fromPartial(e));
+            }
+        }
+        if (object.commitList !== undefined && object.commitList !== null) {
+            for (const e of object.commitList) {
+                message.commitList.push(Commit.fromPartial(e));
+            }
+        }
+        if (object.encryptedtxList !== undefined &&
+            object.encryptedtxList !== null) {
+            for (const e of object.encryptedtxList) {
+                message.encryptedtxList.push(Encryptedtx.fromPartial(e));
             }
         }
         return message;

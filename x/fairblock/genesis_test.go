@@ -30,6 +30,22 @@ func TestGenesis(t *testing.T) {
 				Index: "1",
 			},
 		},
+		CommitList: []types.Commit{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
+		EncryptedtxList: []types.Encryptedtx{
+			{
+				Index: "0",
+			},
+			{
+				Index: "1",
+			},
+		},
 		// this line is used by starport scaffolding # genesis/test/state
 	}
 
@@ -43,5 +59,7 @@ func TestGenesis(t *testing.T) {
 
 	require.ElementsMatch(t, genesisState.ShareList, got.ShareList)
 	require.ElementsMatch(t, genesisState.TargetList, got.TargetList)
+	require.ElementsMatch(t, genesisState.CommitList, got.CommitList)
+	require.ElementsMatch(t, genesisState.EncryptedtxList, got.EncryptedtxList)
 	// this line is used by starport scaffolding # genesis/test/assert
 }
