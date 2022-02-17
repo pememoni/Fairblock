@@ -16,6 +16,19 @@ export interface MsgCommitDecryption {
 }
 export interface MsgCommitDecryptionResponse {
 }
+export interface MsgRevealDecryption {
+    creator: string;
+    plaintext: string;
+}
+export interface MsgRevealDecryptionResponse {
+}
+export interface MsgSubmitShare {
+    creator: string;
+    keyShare: string;
+    targetHeight: string;
+}
+export interface MsgSubmitShareResponse {
+}
 export declare const MsgSubmitEncrypted: {
     encode(message: MsgSubmitEncrypted, writer?: Writer): Writer;
     decode(input: Reader | Uint8Array, length?: number): MsgSubmitEncrypted;
@@ -44,17 +57,49 @@ export declare const MsgCommitDecryptionResponse: {
     toJSON(_: MsgCommitDecryptionResponse): unknown;
     fromPartial(_: DeepPartial<MsgCommitDecryptionResponse>): MsgCommitDecryptionResponse;
 };
+export declare const MsgRevealDecryption: {
+    encode(message: MsgRevealDecryption, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgRevealDecryption;
+    fromJSON(object: any): MsgRevealDecryption;
+    toJSON(message: MsgRevealDecryption): unknown;
+    fromPartial(object: DeepPartial<MsgRevealDecryption>): MsgRevealDecryption;
+};
+export declare const MsgRevealDecryptionResponse: {
+    encode(_: MsgRevealDecryptionResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgRevealDecryptionResponse;
+    fromJSON(_: any): MsgRevealDecryptionResponse;
+    toJSON(_: MsgRevealDecryptionResponse): unknown;
+    fromPartial(_: DeepPartial<MsgRevealDecryptionResponse>): MsgRevealDecryptionResponse;
+};
+export declare const MsgSubmitShare: {
+    encode(message: MsgSubmitShare, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubmitShare;
+    fromJSON(object: any): MsgSubmitShare;
+    toJSON(message: MsgSubmitShare): unknown;
+    fromPartial(object: DeepPartial<MsgSubmitShare>): MsgSubmitShare;
+};
+export declare const MsgSubmitShareResponse: {
+    encode(_: MsgSubmitShareResponse, writer?: Writer): Writer;
+    decode(input: Reader | Uint8Array, length?: number): MsgSubmitShareResponse;
+    fromJSON(_: any): MsgSubmitShareResponse;
+    toJSON(_: MsgSubmitShareResponse): unknown;
+    fromPartial(_: DeepPartial<MsgSubmitShareResponse>): MsgSubmitShareResponse;
+};
 /** Msg defines the Msg service. */
 export interface Msg {
     SubmitEncrypted(request: MsgSubmitEncrypted): Promise<MsgSubmitEncryptedResponse>;
-    /** this line is used by starport scaffolding # proto/tx/rpc */
     CommitDecryption(request: MsgCommitDecryption): Promise<MsgCommitDecryptionResponse>;
+    RevealDecryption(request: MsgRevealDecryption): Promise<MsgRevealDecryptionResponse>;
+    /** this line is used by starport scaffolding # proto/tx/rpc */
+    SubmitShare(request: MsgSubmitShare): Promise<MsgSubmitShareResponse>;
 }
 export declare class MsgClientImpl implements Msg {
     private readonly rpc;
     constructor(rpc: Rpc);
     SubmitEncrypted(request: MsgSubmitEncrypted): Promise<MsgSubmitEncryptedResponse>;
     CommitDecryption(request: MsgCommitDecryption): Promise<MsgCommitDecryptionResponse>;
+    RevealDecryption(request: MsgRevealDecryption): Promise<MsgRevealDecryptionResponse>;
+    SubmitShare(request: MsgSubmitShare): Promise<MsgSubmitShareResponse>;
 }
 interface Rpc {
     request(service: string, method: string, data: Uint8Array): Promise<Uint8Array>;

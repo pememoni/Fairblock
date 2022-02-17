@@ -9,6 +9,8 @@ option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
 service Msg {
       rpc SubmitEncrypted(MsgSubmitEncrypted) returns (MsgSubmitEncryptedResponse);
   rpc CommitDecryption(MsgCommitDecryption) returns (MsgCommitDecryptionResponse);
+  rpc RevealDecryption(MsgRevealDecryption) returns (MsgRevealDecryptionResponse);
+  rpc SubmitShare(MsgSubmitShare) returns (MsgSubmitShareResponse);
 // this line is used by starport scaffolding # proto/tx/rpc
 }
 
@@ -30,6 +32,23 @@ message MsgCommitDecryption {
 }
 
 message MsgCommitDecryptionResponse {
+}
+
+message MsgRevealDecryption {
+  string creator = 1;
+  string plaintext = 2;
+}
+
+message MsgRevealDecryptionResponse {
+}
+
+message MsgSubmitShare {
+  string creator = 1;
+  string keyShare = 2;
+  string targetHeight = 3;
+}
+
+message MsgSubmitShareResponse {
 }
 
 // this line is used by starport scaffolding # proto/tx/message

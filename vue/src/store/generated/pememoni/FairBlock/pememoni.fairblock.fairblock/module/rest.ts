@@ -11,7 +11,11 @@
 
 export type FairblockMsgCommitDecryptionResponse = object;
 
+export type FairblockMsgRevealDecryptionResponse = object;
+
 export type FairblockMsgSubmitEncryptedResponse = object;
+
+export type FairblockMsgSubmitShareResponse = object;
 
 /**
  * Params defines the parameters for the module.

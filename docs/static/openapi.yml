@@ -19962,7 +19962,11 @@ definitions:
       freezing clients
   pememoni.fairblock.fairblock.MsgCommitDecryptionResponse:
     type: object
+  pememoni.fairblock.fairblock.MsgRevealDecryptionResponse:
+    type: object
   pememoni.fairblock.fairblock.MsgSubmitEncryptedResponse:
+    type: object
+  pememoni.fairblock.fairblock.MsgSubmitShareResponse:
     type: object
   pememoni.fairblock.fairblock.Params:
     type: object

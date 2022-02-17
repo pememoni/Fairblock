@@ -32,6 +32,14 @@ const (
 	// TODO: Determine the simulation weight value
 	defaultWeightMsgCommitDecryption int = 100
 
+	opWeightMsgRevealDecryption = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgRevealDecryption int = 100
+
+	opWeightMsgSubmitShare = "op_weight_msg_create_chain"
+	// TODO: Determine the simulation weight value
+	defaultWeightMsgSubmitShare int = 100
+
 	// this line is used by starport scaffolding # simapp/module/const
 )
 
@@ -85,6 +93,28 @@ func (am AppModule) WeightedOperations(simState module.SimulationState) []simtyp
 	operations = append(operations, simulation.NewWeightedOperation(
 		weightMsgCommitDecryption,
 		fairblocksimulation.SimulateMsgCommitDecryption(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgRevealDecryption int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgRevealDecryption, &weightMsgRevealDecryption, nil,
+		func(_ *rand.Rand) {
+			weightMsgRevealDecryption = defaultWeightMsgRevealDecryption
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgRevealDecryption,
+		fairblocksimulation.SimulateMsgRevealDecryption(am.accountKeeper, am.bankKeeper, am.keeper),
+	))
+
+	var weightMsgSubmitShare int
+	simState.AppParams.GetOrGenerate(simState.Cdc, opWeightMsgSubmitShare, &weightMsgSubmitShare, nil,
+		func(_ *rand.Rand) {
+			weightMsgSubmitShare = defaultWeightMsgSubmitShare
+		},
+	)
+	operations = append(operations, simulation.NewWeightedOperation(
+		weightMsgSubmitShare,
+		fairblocksimulation.SimulateMsgSubmitShare(am.accountKeeper, am.bankKeeper, am.keeper),
 	))
 
 	// this line is used by starport scaffolding # simapp/module/operation

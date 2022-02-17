@@ -309,6 +309,240 @@ export const MsgCommitDecryptionResponse = {
         return message;
     },
 };
+const baseMsgRevealDecryption = { creator: "", plaintext: "" };
+export const MsgRevealDecryption = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.plaintext !== "") {
+            writer.uint32(18).string(message.plaintext);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgRevealDecryption };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.plaintext = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgRevealDecryption };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.plaintext !== undefined && object.plaintext !== null) {
+            message.plaintext = String(object.plaintext);
+        }
+        else {
+            message.plaintext = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.plaintext !== undefined && (obj.plaintext = message.plaintext);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgRevealDecryption };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.plaintext !== undefined && object.plaintext !== null) {
+            message.plaintext = object.plaintext;
+        }
+        else {
+            message.plaintext = "";
+        }
+        return message;
+    },
+};
+const baseMsgRevealDecryptionResponse = {};
+export const MsgRevealDecryptionResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = {
+            ...baseMsgRevealDecryptionResponse,
+        };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = {
+            ...baseMsgRevealDecryptionResponse,
+        };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = {
+            ...baseMsgRevealDecryptionResponse,
+        };
+        return message;
+    },
+};
+const baseMsgSubmitShare = {
+    creator: "",
+    keyShare: "",
+    targetHeight: "",
+};
+export const MsgSubmitShare = {
+    encode(message, writer = Writer.create()) {
+        if (message.creator !== "") {
+            writer.uint32(10).string(message.creator);
+        }
+        if (message.keyShare !== "") {
+            writer.uint32(18).string(message.keyShare);
+        }
+        if (message.targetHeight !== "") {
+            writer.uint32(26).string(message.targetHeight);
+        }
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgSubmitShare };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                case 1:
+                    message.creator = reader.string();
+                    break;
+                case 2:
+                    message.keyShare = reader.string();
+                    break;
+                case 3:
+                    message.targetHeight = reader.string();
+                    break;
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(object) {
+        const message = { ...baseMsgSubmitShare };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = String(object.creator);
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.keyShare !== undefined && object.keyShare !== null) {
+            message.keyShare = String(object.keyShare);
+        }
+        else {
+            message.keyShare = "";
+        }
+        if (object.targetHeight !== undefined && object.targetHeight !== null) {
+            message.targetHeight = String(object.targetHeight);
+        }
+        else {
+            message.targetHeight = "";
+        }
+        return message;
+    },
+    toJSON(message) {
+        const obj = {};
+        message.creator !== undefined && (obj.creator = message.creator);
+        message.keyShare !== undefined && (obj.keyShare = message.keyShare);
+        message.targetHeight !== undefined &&
+            (obj.targetHeight = message.targetHeight);
+        return obj;
+    },
+    fromPartial(object) {
+        const message = { ...baseMsgSubmitShare };
+        if (object.creator !== undefined && object.creator !== null) {
+            message.creator = object.creator;
+        }
+        else {
+            message.creator = "";
+        }
+        if (object.keyShare !== undefined && object.keyShare !== null) {
+            message.keyShare = object.keyShare;
+        }
+        else {
+            message.keyShare = "";
+        }
+        if (object.targetHeight !== undefined && object.targetHeight !== null) {
+            message.targetHeight = object.targetHeight;
+        }
+        else {
+            message.targetHeight = "";
+        }
+        return message;
+    },
+};
+const baseMsgSubmitShareResponse = {};
+export const MsgSubmitShareResponse = {
+    encode(_, writer = Writer.create()) {
+        return writer;
+    },
+    decode(input, length) {
+        const reader = input instanceof Uint8Array ? new Reader(input) : input;
+        let end = length === undefined ? reader.len : reader.pos + length;
+        const message = { ...baseMsgSubmitShareResponse };
+        while (reader.pos < end) {
+            const tag = reader.uint32();
+            switch (tag >>> 3) {
+                default:
+                    reader.skipType(tag & 7);
+                    break;
+            }
+        }
+        return message;
+    },
+    fromJSON(_) {
+        const message = { ...baseMsgSubmitShareResponse };
+        return message;
+    },
+    toJSON(_) {
+        const obj = {};
+        return obj;
+    },
+    fromPartial(_) {
+        const message = { ...baseMsgSubmitShareResponse };
+        return message;
+    },
+};
 export class MsgClientImpl {
     constructor(rpc) {
         this.rpc = rpc;
@@ -322,5 +556,15 @@ export class MsgClientImpl {
         const data = MsgCommitDecryption.encode(request).finish();
         const promise = this.rpc.request("pememoni.fairblock.fairblock.Msg", "CommitDecryption", data);
         return promise.then((data) => MsgCommitDecryptionResponse.decode(new Reader(data)));
+    }
+    RevealDecryption(request) {
+        const data = MsgRevealDecryption.encode(request).finish();
+        const promise = this.rpc.request("pememoni.fairblock.fairblock.Msg", "RevealDecryption", data);
+        return promise.then((data) => MsgRevealDecryptionResponse.decode(new Reader(data)));
+    }
+    SubmitShare(request) {
+        const data = MsgSubmitShare.encode(request).finish();
+        const promise = this.rpc.request("pememoni.fairblock.fairblock.Msg", "SubmitShare", data);
+        return promise.then((data) => MsgSubmitShareResponse.decode(new Reader(data)));
     }
 }
