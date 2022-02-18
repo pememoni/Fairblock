@@ -35,7 +35,7 @@ func CmdCommitDecryption() *cobra.Command {
 			// convert the hash to string
 			var plaintextDecryptorHashString = hex.EncodeToString(plaintextDecryptorHash[:])
 			// create a new message
-			msg := types.NewMsgCommitDecryption(clientCtx.GetFromAddress().String(), string(plaintextHashString), string(plaintextDecryptorHash))
+			msg := types.NewMsgCommitDecryption(clientCtx.GetFromAddress().String(), string(plaintextHashString), string(plaintextDecryptorHashString))
 			if err := msg.ValidateBasic(); err != nil {
 				return err
 			}
