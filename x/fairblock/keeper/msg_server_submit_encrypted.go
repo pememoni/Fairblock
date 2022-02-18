@@ -12,7 +12,7 @@ import (
 func (k msgServer) SubmitEncrypted(goCtx context.Context, msg *types.MsgSubmitEncrypted) (*types.MsgSubmitEncryptedResponse, error) {
 	// get context that contains information about the environment, such as block height
 	ctx := sdk.UnwrapSDKContext(goCtx)
-	// create a new scavenge from the data in the MsgSubmitScavenge message
+	// create a new encryptedtx from the data in the message
 	var encryptedtx = types.Encryptedtx{
 		Index:        msg.MessageHash,
 		Decryptor:    msg.Creator,
