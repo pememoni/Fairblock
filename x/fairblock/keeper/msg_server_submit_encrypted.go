@@ -15,7 +15,7 @@ func (k msgServer) SubmitEncrypted(goCtx context.Context, msg *types.MsgSubmitEn
 	// create a new scavenge from the data in the MsgSubmitScavenge message
 	var encryptedtx = types.Encryptedtx{
 		Index:        msg.MessageHash,
-		Sender:       msg.Creator,
+		Decryptor:    msg.Creator,
 		Encryption:   msg.Encryption,
 		MessageHash:  msg.MessageHash,
 		TargetHeight: msg.TargetHeight,
@@ -30,7 +30,7 @@ func (k msgServer) SubmitEncrypted(goCtx context.Context, msg *types.MsgSubmitEn
 	// get address of the module account
 	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
 	// convert the message creator address from a string into sdk.AccAddress
-	sender, err := sdk.AccAddressFromBech32(encryptedtx.Sender)
+	sender, err := sdk.AccAddressFromBech32(encryptedtx.Decryptor)
 	if err != nil {
 		panic(err)
 	}
