@@ -14,8 +14,9 @@ func (k msgServer) SubmitShare(goCtx context.Context, msg *types.MsgSubmitShare)
 
 	// create a new block key share from the information in the message
 	var share = types.Share{
-		Index:    msg.KeyShare,
-		KeyShare: msg.KeyShare,
+		Index:        msg.KeyShare,
+		KeyShare:     msg.KeyShare,
+		TargetHeight: msg.TargetHeight,
 	}
 	k.SetShare(ctx, share)
 	return &types.MsgSubmitShareResponse{}, nil
