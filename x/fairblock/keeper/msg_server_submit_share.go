@@ -10,8 +10,13 @@ import (
 func (k msgServer) SubmitShare(goCtx context.Context, msg *types.MsgSubmitShare) (*types.MsgSubmitShareResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 
-	// TODO: Handling the message
 	_ = ctx
 
+	// create a new block key share from the information in the message
+	var share = types.Share{
+		Index:    msg.KeyShare,
+		KeyShare: msg.KeyShare,
+	}
+	k.SetShare(ctx, share)
 	return &types.MsgSubmitShareResponse{}, nil
 }
