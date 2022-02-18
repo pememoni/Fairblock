@@ -1,0 +1,12 @@
+syntax = "proto3";
+package pememoni.fairblock.fairblock;
+
+option go_package = "github.com/pememoni/FairBlock/x/fairblock/types";
+
+message Share {
+  string index = 1; 
+  string keyShare = 2; 
+  string targetHeight = 3; 
+  
+}
+
