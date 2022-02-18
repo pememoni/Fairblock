@@ -13,7 +13,7 @@ func (k msgServer) SubmitEncrypted(goCtx context.Context, msg *types.MsgSubmitEn
 	// get context that contains information about the environment, such as block height
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// create a new scavenge from the data in the MsgSubmitScavenge message
-	var encryptedtx = types.encryptedtx{
+	var encryptedtx = types.Encryptedtx{
 		Index:        msg.MessageHash,
 		Sender:       msg.Creator,
 		Encryption:   msg.Encryption,
