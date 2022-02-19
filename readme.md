@@ -61,3 +61,12 @@ npm run serve
 ```
 
 The frontend app is built using the `@starport/vue` and `@starport/vuex` packages.
+
+## Useful Resources
+
+[Identity-Based Encryption](https://en.wikipedia.org/wiki/Identity-based_encryption)
+[Boneh-Franklin IBE Scheme](https://crypto.stanford.edu/~dabo/papers/bfibe.pdf)
+[DKG protocol on Blockchain for IBE without a trusted dealer](https://github.com/anoma/ferveo)
+[Ethereum is a Dark Forest](https://www.paradigm.xyz/2020/08/ethereum-is-a-dark-forest)
+[Front-running presentation by Phil Daian at IEEE Symposium on Security and Privacy](https://www.youtube.com/watch?v=vR1v7AQ8i3k&feature=youtu.be)
+[Escaping the Dark Forest](https://samczsun.com/escaping-the-dark-forest/)
