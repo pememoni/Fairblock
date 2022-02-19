@@ -14,7 +14,7 @@ import (
 func (k msgServer) RevealDecryption(goCtx context.Context, msg *types.MsgRevealDecryption) (*types.MsgRevealDecryptionResponse, error) {
 	ctx := sdk.UnwrapSDKContext(goCtx)
 	// concatenate a decryption and a decryptor address and convert it to bytes
-	var plaintextDecryptorBytes = []byte(msg.Decryption + msg.Creator)
+	var plaintextDecryptorBytes = []byte(msg.Plaintext + msg.Creator)
 	// find the hash of solution and address
 	var plaintextDecryptorHash = sha256.Sum256(plaintextDecryptorBytes)
 	// convert the hash to a string
@@ -26,13 +26,13 @@ func (k msgServer) RevealDecryption(goCtx context.Context, msg *types.MsgRevealD
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Commit with that hash doesn't exists")
 	}
 	// find a hash of the solution
-	var decryptionHash = sha256.Sum256([]byte(msg.Decryption))
+	var plaintextHash = sha256.Sum256([]byte(msg.Plaintext))
 	// encode the solution hash to string
-	var decryptionHashString = hex.EncodeToString(decryptionHash[:])
+	var plaintextHashString = hex.EncodeToString(plaintextHash[:])
 	var encryptedtx types.Encryptedtx
 	// get a encrypted message from the store using the plaintext hash
-	encryptedtx, isFound = k.GetEncryptedtx(ctx, decryptionHashString)
-	// return an error if the decryption doesn't exist
+	encryptedtx, isFound = k.GetEncryptedtx(ctx, plaintextHashString)
+	// return an error if the decryption (plaintext) doesn't exist
 	if !isFound {
 		return nil, sdkerrors.Wrap(sdkerrors.ErrInvalidRequest, "Encrypted message with this decryption hash doesn't exists")
 	}
@@ -45,7 +45,7 @@ func (k msgServer) RevealDecryption(goCtx context.Context, msg *types.MsgRevealD
 	// save the decryptor address to the encrypted message
 	encryptedtx.Decryptor = msg.Creator
 	// save the correct decryption to the encrypted message
-	encryptedtx.Decryption = msg.Decryption
+	encryptedtx.Plaintext = msg.Plaintext
 	// get address of the module account
 	moduleAcct := sdk.AccAddress(crypto.AddressHash([]byte(types.ModuleName)))
 	// convert decryptor address from string to sdk.AccAddress
