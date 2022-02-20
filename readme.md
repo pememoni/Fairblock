@@ -5,43 +5,43 @@ The blockchain for this application is built using Cosmos SDK and Tendermint and
 
 ## Get started
 
-### - Install Starport:
+##### - Install Starport:
 ```
 curl https://get.starport.network/starport@v0.19.2! | bash
 ```
 
-### - Set correct GOPATH:
+##### - Set correct GOPATH:
 ```
 export PATH=$PATH:$(go env GOPATH)/bin
 ```
 
-### - Run FairBlock Blockchain:
+##### - Run FairBlock Blockchain:
 ```
 starport chain serve
 ```
 `serve` command installs dependencies, builds, initializes, and starts FairBlock.
 
 
-### - Set target for encrypted messages e.g. buying an NFT, Auction, MEV opportunity:
+##### - Set target for encrypted messages e.g. buying an NFT, Auction, MEV opportunity:
 ```
 FairBlockd tx fairblock submit-target "description of target" "block height that IBE private key should be extracted" --from "client"
 ```
-### - Submit encrpyted messages (bids, offers, or any other sensitive information that can be used for front-running attacks if leaked)
+##### - Submit encrpyted messages (bids, offers, or any other sensitive information that can be used for front-running attacks if leaked)
 ```
 FairBlockd tx fairblock submit-encrypted "plaintext for message" "IBE Encrpytion of message with public key derived from target block height" "deposit"  --from "sender of encrypted message" 
 ```
 plaintext of message will be converted to SHA256 on the client as a cryptographic commitment. The messages are never leaked to any public entity which might want to front-run
 
-### - Validators Submit their IBE private key share for target block height
+##### - Validators Submit their IBE private key share for target block height
 ```
 FairBlockd tx fairblock submit-share "IBE key share for alice" "target block height" --from "alice"
 ```
-### - Original sender submits a commitment for his/her plaintext of encrypted message OR a decrpytor uses IBE private key shares and computer a private key to decrypt the encrypted message with the incentive of taking the original sender's deposit
+##### - Original sender submits a commitment for his/her plaintext of encrypted message OR a decrpytor uses IBE private key shares and computes a private key to decrypt the encrypted message with the incentive of taking the original sender's deposit
 ```
 FairBlockd tx fairblock commit-decryption "plaintext of message"  --from "sender or decryptor"
 ```
 The plaintext of commited decryption will be converted to SHA256 on the client side so the plaintexts are never leaked to any public entity which might want to front-run
-### - Original sender or the decryptor Reveals the plaintext of his/her commited decryption to take back or win the deposit
+##### - Original sender or the decryptor Reveals the plaintext of his/her commited decryption to take back or win the deposit
 ```
 FairBlockd tx fairblock reveal-decryption "plaintext of message" --from "sender or decryptor" 
 ```
