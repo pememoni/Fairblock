@@ -22,6 +22,8 @@ starport chain serve
 `serve` command installs dependencies, builds, initializes, and starts FairBlock.
 
 
+### Transactions
+
 ##### - Set target for encrypted messages e.g. buying an NFT, Auction, MEV opportunity:
 ```
 FairBlockd tx fairblock submit-target "description of target" "block height that IBE private key should be extracted" --from "client"
@@ -46,11 +48,36 @@ The plaintext of commited decryption will be converted to SHA256 on the client s
 FairBlockd tx fairblock reveal-decryption "plaintext of message" --from "sender or decryptor" 
 ```
 
-## Configure
+### Queries
+
+##### - Query current block information
+```
+FairBlockd q block
+```
+
+##### - Query target
+```
+FairBlockd q fairblock list-target --output json
+```
+##### - Query shares
+```
+FairBlockd q fairblock list-share --output json
+```
+##### - Query encrypted messages
+```
+FairBlockd q fairblock list-encryptedtx --output json
+```
+##### - Query commits
+```
+FairBlockd q fairblock list-commit --output json
+```
+
+
+### Configure
 
 The blockchain in development can be configured with `config.yml`.
 
-## Web Frontend
+### Web Frontend
 
 Run the following commands to install dependencies and start a Vue.js-based web app:
 
