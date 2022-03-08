@@ -1,13 +1,13 @@
 # FairBlock
 **FairBlock** is a front-running protection mechanism for blockchain applications.
 While blockchain systems are quickly gaining popularity, front-running remains a major obstacle to fair exchange and other blockchain applications. FairBlock shows how to apply Identity-Based Encryption (IBE) to prevent front-running with minimal bandwidth overheads. In our approach, to decrypt a block of N transaction, the number of messages sent across the network only grows linearly with the size of decrypting committees, S. That is, to decrypt a set of N transactions sequenced at a specific block, a committee only needs to exchange $S$ decryption shares (independent of N). In comparison, previous solutions based on the threshold encryption schemes, where each transaction in a block must be decrypted separately by the committee, resulting in bandwidth overhead of N * S. This project has implemented FairBlock in the consensus layer i.e. consensus validators are also the ones who are responsible for extracting a private key for decrypting encrypted transactions in each block target. This project  
-The blockchain for this application is built using Cosmos SDK and Tendermint and created with Starport. In an alternative [approach](https://github.com/pememoni/FairBlock_contracts), FairBlock is implemented using smart contracts as the communication layer for smart contract blockchains such as Avalanche and Ethereum.
+The blockchain for this application is built using Cosmos SDK and created with Starport. In an alternative [approach](https://github.com/pememoni/FairBlock_contracts), FairBlock is implemented using smart contracts as the communication layer for smart contract blockchains such as Avalanche and Ethereum.
 <img width="953" alt="Screen Shot 2022-02-23 at 7 06 26 PM" src="https://user-images.githubusercontent.com/34263018/155432112-3abcce88-989c-41f2-a00c-0fbf98892ea0.png">
 
 
 
 ## Get started
-
+### Blockchain
 ##### - Install Starport:
 ```
 curl https://get.starport.network/starport@v0.19.2! | bash
@@ -75,7 +75,6 @@ FairBlockd q fairblock list-encryptedtx --output json
 FairBlockd q fairblock list-commit --output json
 ```
 
-
 ### Configure
 
 The blockchain in development can be configured with `config.yml`.
@@ -92,6 +91,15 @@ npm run serve
 
 The frontend app is built using the `@starport/vue` and `@starport/vuex` packages.
 
+### Distributed Identity-Based Encryption
+
+1. `cd distributedIBE/ibe`
+
+2. `go test`
+
+* This project has been built based on Vuvuzela and tcpaillier projects
+* This implementation has not been vetted for a production setting, use with caution
+* This project has been tested on Linux
 ## Useful Resources
 
 [Identity-Based Encryption](https://en.wikipedia.org/wiki/Identity-based_encryption)
