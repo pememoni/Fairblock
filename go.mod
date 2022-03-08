@@ -16,9 +16,11 @@ require (
 	github.com/tendermint/starport v0.19.2
 	github.com/tendermint/tendermint v0.34.14
 	github.com/tendermint/tm-db v0.6.4
+	github.com/zbh888/crypto v0.0.0-20210929155944-7f287ca3da2d
 	google.golang.org/genproto v0.0.0-20220118154757-00ab72f36ad5
 	google.golang.org/grpc v1.43.0
 	gopkg.in/yaml.v2 v2.4.0
+	vuvuzela.io/crypto v0.0.0-20190327123840-80a93a3ed1d6
 )
 
 replace (
