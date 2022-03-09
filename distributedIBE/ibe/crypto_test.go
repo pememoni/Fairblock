@@ -2,8 +2,8 @@ package ibe
 
 import (
 	"crypto/rand"
+	"fmt"
 	"github.com/zbh888/crypto/ibe"
-	"log"
 	"math/big"
 	"reflect"
 	"testing"
@@ -12,7 +12,7 @@ import (
 )
 
 // test for encryption, extracting private key for ID, and decryption with a centralized trusted third party
-func TestIBE_Centralized(t *testing.T) {
+func TestCentralizedIBE_Demo(t *testing.T) {
 	PK, secret := ibe.Setup(rand.Reader)
 	message := "000000000000000000000000000000000000000000000000000000000000004000000000000000000000000037f20d96a0ed94e7ae25661ffdcb00155b27ca4d0000000000000000000000000000000000000000000000000000000000000002c0de000000000000000000000000000000000000000000000000000000000000"
 	ID := "3000"
@@ -32,10 +32,6 @@ func TestIBE_Centralized(t *testing.T) {
 
 }
 
-func f(x int64) *big.Int {
-	return big.NewInt(1234 + 166*x + 94*x*x)
-}
-
 func getIndices(min, max int) []uint32 {
 	a := make([]uint32, max-min+1)
 	for i := range a {
@@ -44,12 +40,17 @@ func getIndices(min, max int) []uint32 {
 	return a
 }
 
-const polynomialTestDegree = 667
-
-// threshold 3, player 3, all honest
 // These tests are built with the assumption that Distributed Key Generation have already been done by keepers
 // For the sake of simplicity of tests, we assume a central TTP with a random msk for shamir secret sharing
 // In practice, the TTP can be eliminated with a DKG protocol. Next steps will remain the same and tests are equally valid
+
+// degree for polynomial which is used for secret sharing, degree is equal to t (max number of malicious parties)
+const polynomialTestDegree = 33
+
+// number of keepers
+const n = 100
+
+// all honest players
 func TestParties_AllHonest(t *testing.T) {
 	msk, _ := rand.Int(rand.Reader, bn256.Order)
 	p, err := createRandomPolynomial(polynomialTestDegree, msk, bn256.Order)
@@ -57,7 +58,7 @@ func TestParties_AllHonest(t *testing.T) {
 		t.Errorf("could not create a random polynomial")
 		return
 	}
-	S := getIndices(1, 1000)
+	S := getIndices(1, n)
 	indexShares := make([]*big.Int, 0)
 	for _, element := range S {
 		indexShares = append(indexShares, p.eval(big.NewInt(int64(element))))
@@ -93,43 +94,66 @@ func TestParties_AllHonest(t *testing.T) {
 	}
 
 	Cipher, _ := encrypt(message, PK, ID)
-	start := time.Now()
 	SK, _ := AggregationSK(sentshares, commitments, ID, S)
 	m, _ := decrypt(Cipher, SK)
-	elapsed := time.Since(start)
-	log.Printf("private key extraction and decryption took %s", elapsed)
 	if !reflect.DeepEqual(message, m) {
-		t.Error("not equal")
+		t.Error("message decryption: failed")
 	}
 }
 
-// At least t + 1 honest parties is required to extract compute msk or extract private key for each ID
+func makeMaliciousShares(sentshares []SentShare) []SentShare {
+	// in this function we make n - polynomialTestDegree (t) malicious shares (more than threshold)
+	// in this test, malicious parties send the first honest share as their own share
+	maliciousShare := sentshares[0]
+	for f := 1; f <= n-polynomialTestDegree; f++ {
+		sentshares[f] = maliciousShare
+	}
+	return sentshares
+}
+
+// At least t + 1 honest parties is required to extract private key for each ID
+// in this example there will be only t honest parties
+//so private key for ID should not be extracted correctly
+
 func TestParties_HonestLessT(t *testing.T) {
-	S := []uint32{2, 4, 5}
-	index2Share := f(2)
-	index4Share := f(4)
-	index5Share := f(5)
-	P := new(bn256.G1).ScalarBaseMult(big.NewInt(1))
-	c2 := generateCommitment(index2Share, P, 2)
-	c4 := generateCommitment(index4Share, P, 4)
-	c5 := generateCommitment(index5Share, P, 5)
-	PK := AggregationPK([]Commitment{c2, c4, c5}, S)
-	message := "000000000000000000000000000000000000000000000000000000000000004000000000000000000000000037f20d96a0ed94e7ae25661ffdcb00155b27ca4d0000000000000000000000000000000000000000000000000000000000000002c0de000000000000000000000000000000000000000000000000000000000000"
-	ID := "3000"
-	// Then they want to send the processed share
-	s2 := SecretShareProcess(index2Share, ID, 2)
-	s4 := SecretShareProcess(index4Share, ID, 4)
-	Cipher, _ := encrypt(message, PK, ID)
+	msk, _ := rand.Int(rand.Reader, bn256.Order)
+	p, err := createRandomPolynomial(polynomialTestDegree, msk, bn256.Order)
+	if err != nil {
+		t.Errorf("could not create a random polynomial")
+		return
+	}
 
-	SK, _ := AggregationSK([]SentShare{s2, s4}, []Commitment{c2, c4}, ID, S)
+	S := getIndices(1, n)
+	indexShares := make([]*big.Int, 0)
+	for _, element := range S {
+		indexShares = append(indexShares, p.eval(big.NewInt(int64(element))))
+	}
+
+	P := new(bn256.G1).ScalarBaseMult(big.NewInt(1))
+	commitments := make([]Commitment, 0)
+	for i, element := range S {
+		commitments = append(commitments, generateCommitment(indexShares[i], P, element))
+	}
+	PK := AggregationPK(commitments, S)
+	message := "000000000000000000000000000000000000000000000000000000000000004000000000000000000000000037f20d96a0ed94e7ae25661ffdcb00155b27ca4d0000000000000000000000000000000000000000000000000000000000000002c0de000000000000000000000000000000000000000000000000000000000000"
+	ID := "3001"
+	// Then they want to send the processed share
+	sentshares := make([]SentShare, 0)
+	for i, element := range S {
+		sentshares = append(sentshares, SecretShareProcess(indexShares[i], ID, element))
+	}
+	sentshares = makeMaliciousShares(sentshares)
+	Cipher, _ := encrypt(message, PK, ID)
+	SK, _ := AggregationSK(sentshares, commitments, ID, S)
 	m, _ := decrypt(Cipher, SK)
+
 	if reflect.DeepEqual(message, m) {
-		t.Error("should be not equal")
+		t.Error("message should not be decrypted correctly")
 	}
 }
 
-// Five keepers in total, threshold = 3, 4 of them participated in decryption
-func TestIBE_Distributed(t *testing.T) {
+// Five keepers in total, threshold = 3 (t+1), 4 of them participated in decryption
+func TestDistributedIBE_Demo(t *testing.T) {
 	msk, _ := rand.Int(rand.Reader, bn256.Order)
 	p, err := createRandomPolynomial(2, msk, bn256.Order)
 
@@ -163,7 +187,7 @@ func TestIBE_Distributed(t *testing.T) {
 	// ID         : Any string but in this setting, a specific block number
 	message := "000000000000000000000000000000000000000000000000000000000000004000000000000000000000000037f20d96a0ed94e7ae25661ffdcb00155b27ca4d0000000000000000000000000000000000000000000000000000000000000002c0de000000000000000000000000000000000000000000000000000000000000"
 	ID_round1 := "3000"
-	ID_round2 := "4000"
+	ID_round2 := "3001"
 	Cipher_round1, _ := encrypt(message, PK, ID_round1)
 	Cipher_round1_byte, _ := Cipher_round1.MarshalBinary()
 	Cipher_round2, _ := encrypt(message, PK, ID_round2)
@@ -191,22 +215,24 @@ func TestIBE_Distributed(t *testing.T) {
 	// index 1 is offline, index 3 is malicious
 	_ = SecretShareProcess(index1Share, ID_round2, 1)
 	s2_round2 := SecretShareProcess(index2Share, ID_round2, 2)
-	// Wrong share, and sent
+	//keepers 3 is malicious and sends a wrong share
 	s3_round2 := SecretShareProcess(big.NewInt(3), ID_round2, 3)
 	s4_round2 := SecretShareProcess(index4Share, ID_round2, 4)
 	s5_round2 := SecretShareProcess(index5Share, ID_round2, 5)
 
-	// Key generation
+	// Private Key Generation for ID_1
 	SK_round1, _ := AggregationSK(
 		[]SentShare{s1_round1, s2_round1, s4_round1, s5_round1},
 		[]Commitment{c1, c2, c4, c5}, ID_round1,
 		[]uint32{1, 2, 4, 5}) // keepers involved
+	// Private Key Generation for ID_2
 	SK_round2, Invalid := AggregationSK(
 		[]SentShare{s2_round2, s3_round2, s4_round2, s5_round2},
 		[]Commitment{c2, c3, c4, c5}, ID_round2,
 		[]uint32{2, 3, 4, 5}) // keepers involved
+
 	if !reflect.DeepEqual(Invalid, []uint32{3}) {
-		t.Error("the malicious user is 3")
+		t.Error("malicious keeper detection: failed")
 	}
 
 	// A Keeper pick the ciphertext from blockchain (consensus layer solution) or commitment contract (smart contract solution), and decrypt it
@@ -248,5 +274,52 @@ func TestPolynomial_Eval(t *testing.T) {
 
 	if expected.Cmp(res) != 0 {
 		t.Errorf("the evaluations is not providing a correct result")
+	}
+}
+
+func ibeEval(t int, n int) {
+	msk, _ := rand.Int(rand.Reader, bn256.Order)
+	p, _ := createRandomPolynomial(t, msk, bn256.Order)
+
+	S := getIndices(1, n)
+	indexShares := make([]*big.Int, 0)
+	for _, element := range S {
+		indexShares = append(indexShares, p.eval(big.NewInt(int64(element))))
+	}
+
+	for i, element := range S {
+		indexShares[i].Mul(lagrangeCoefficient(element, S), indexShares[i])
+	}
+
+	P := new(bn256.G1).ScalarBaseMult(big.NewInt(1))
+	commitments := make([]Commitment, 0)
+	for i, element := range S {
+		commitments = append(commitments, generateCommitment(indexShares[i], P, element))
+	}
+	PK := AggregationPK(commitments, S)
+	message := "000000000000000000000000000000000000000000000000000000000000004000000000000000000000000037f20d96a0ed94e7ae25661ffdcb00155b27ca4d0000000000000000000000000000000000000000000000000000000000000002c0de000000000000000000000000000000000000000000000000000000000000"
+	ID := "3001"
+	Cipher, _ := encrypt(message, PK, ID)
+
+	// Then they want to send the processed share
+	sentshares := make([]SentShare, 0)
+	for i, element := range S {
+		sentshares = append(sentshares, SecretShareProcess(indexShares[i], ID, element))
+	}
+	start := time.Now()
+	SK, _ := AggregationSK(sentshares, commitments, ID, S)
+	decrypt(Cipher, SK)
+	elapsed := time.Since(start)
+	fmt.Println(elapsed.Milliseconds())
+}
+
+// timing private key extraction and decryption
+func TestBench(t *testing.T) {
+	// test for diffrent numbers of keepers, we assume threshold is one third,
+	//and there are enough honest players
+	n := 10
+	for n <= 1000 {
+		ibeEval(n/3, n/3+1)
+		n += 10
 	}
 }
