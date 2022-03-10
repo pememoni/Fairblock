@@ -310,12 +310,13 @@ func ibeEval(t int, n int) {
 	SK, _ := AggregationSK(sentshares, commitments, ID, S)
 	decrypt(Cipher, SK)
 	elapsed := time.Since(start)
-	fmt.Println(elapsed.Milliseconds())
+	//uncomment if you want to print the execution time for different keeper set sizes
+	//fmt.Println(elapsed.Milliseconds())
 }
 
 // timing private key extraction and decryption
 func TestBench(t *testing.T) {
-	// test for diffrent numbers of keepers, we assume threshold is one third,
+	// test for diffrent keeper set sizes, we assume threshold is one third,
 	//and there are enough honest players
 	n := 10
 	for n <= 1000 {
