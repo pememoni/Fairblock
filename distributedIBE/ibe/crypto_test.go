@@ -310,8 +310,8 @@ func ibeEval(t int, n int) {
 	SK, _ := AggregationSK(sentshares, commitments, ID, S)
 	decrypt(Cipher, SK)
 	elapsed := time.Since(start)
-	//uncomment if you want to print the execution time for different keeper set sizes
-	//fmt.Println(elapsed.Milliseconds())
+	//comment this part if you don't want to print run time
+	fmt.Println(elapsed.Milliseconds())
 }
 
 // timing private key extraction and decryption
