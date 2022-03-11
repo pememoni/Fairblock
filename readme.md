@@ -94,8 +94,8 @@ The frontend app is built using the `@starport/vue` and `@starport/vuex` package
 ### Distributed Identity-Based Encryption
 
 1. `cd distributedIBE/ibe`
-
-2. `go test`
+2. `go mod tidy`
+3. `go test`
 
 * This project has been built based on Vuvuzela and tcpaillier projects
 * This implementation has not been vetted for a production setting, use with caution
