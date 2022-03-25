@@ -316,7 +316,7 @@ func ibeEval(t int, n int) {
 
 // timing private key extraction and decryption
 func TestBench(t *testing.T) {
-	// test for diffrent keeper set sizes, we assume threshold is one third,
+	// test for different keeper set sizes, we assume threshold is one third,
 	//and there are enough honest players
 	n := 10
 	for n <= 1000 {
