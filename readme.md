@@ -4,7 +4,7 @@ While blockchain systems are quickly gaining popularity, front-running remains a
 The blockchain for this application is built using Cosmos SDK and created with Starport. In an alternative [approach](https://github.com/pememoni/FairBlock-SC), FairBlock is implemented using smart contracts as the communication layer for smart contract blockchains such as Avalanche and Ethereum.
 <img width="953" alt="Screen Shot 2022-02-23 at 7 06 26 PM" src="https://user-images.githubusercontent.com/34263018/155432112-3abcce88-989c-41f2-a00c-0fbf98892ea0.png">
 
-Check our [White Paper](https://drive.google.com/file/d/1nyp_NEkuF9kQ1lLqI9QCHX1FLC3Tghnt/view?usp=sharing)
+Check our [phite paper](https://drive.google.com/file/d/1nyp_NEkuF9kQ1lLqI9QCHX1FLC3Tghnt/view?usp=sharing)
 
 
 ## Get started
