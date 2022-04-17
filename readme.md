@@ -1,4 +1,7 @@
 # FairBlock
+![logo drawio](https://user-images.githubusercontent.com/34263018/163702754-f00278e7-10d2-4e32-8eb4-c96d52fce633.png)
+
+
 **FairBlock** is a front-running protection mechanism for blockchain applications.
 While blockchain systems are quickly gaining popularity, front-running remains a major obstacle to fair exchange and other blockchain applications. FairBlock shows how to apply Identity-Based Encryption (IBE) to prevent front-running with minimal bandwidth overheads. In our approach, to decrypt a block of N transaction, the number of messages sent across the network only grows linearly with the size of decrypting committees, S. That is, to decrypt a set of N transactions sequenced at a specific block, a committee only needs to exchange $S$ decryption shares (independent of N). In comparison, previous solutions based on the threshold encryption schemes, where each transaction in a block must be decrypted separately by the committee, resulting in bandwidth overhead of N * S. This project has implemented FairBlock in the consensus layer i.e. consensus validators are also the ones who are responsible for extracting a private key for decrypting encrypted transactions in each block target. This project  
 The blockchain for this application is built using Cosmos SDK and created with Starport. In an alternative [approach](https://github.com/pememoni/FairBlock-SC), FairBlock is implemented using smart contracts as the communication layer for smart contract blockchains such as Avalanche and Ethereum.
