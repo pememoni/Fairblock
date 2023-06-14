@@ -1,4 +1,4 @@
-# FairBlock
+# Fairblock
 ![Original Logo](https://user-images.githubusercontent.com/34263018/186832886-c4d7659c-3f31-43c1-ac04-39a9f3ef6b3d.png)
 
 **FairBlock** is a front-running protection mechanism for blockchain applications.
